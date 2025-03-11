@@ -1,0 +1,73 @@
+from typing import List
+
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+
+from app.db.database import get_db
+from app.repository import user_repository
+from app.schemas.token_schema import TokenData
+from app.schemas.user_schema import UpdateUserSchema, CreateUserSchema, UserResponseSchema
+from app.utils.error_response import get_error_response
+from app.utils.oauth import role_required
+
+router = APIRouter(
+    prefix="/user",
+    tags=["Users"]
+)
+
+
+@router.get('/', response_model=List[UserResponseSchema], status_code=status.HTTP_200_OK,
+            description="This endpoint is available to SuperAdmin users.",
+            responses={
+                status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
+                status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN","You do not have access to this resource."),
+                status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR","Internal Server Error"), })
+def get_users(db: Session = Depends(get_db),
+              current_user: TokenData = Depends(role_required(['User']))):
+    data = user_repository.get_users(db)
+    return data
+
+
+@router.post('/', response_model=UserResponseSchema, status_code=status.HTTP_201_CREATED, responses={
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_409_CONFLICT: get_error_response("ERROR: CONFLICT", "Create user error {e}"),
+    status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
+    created_user = user_repository.create_user(user, db)
+    return created_user
+
+
+@router.get('/{user_id}', response_model=UserResponseSchema, status_code=status.HTTP_200_OK, responses={
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated or invalid role provided"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+    user = user_repository.get_user_by_id(user_id, db)
+    return user
+
+
+@router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT, responses={
+    status.HTTP_204_NO_CONTENT: {"description": "NO_CONTENT"},
+
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user_repository.delete_user(user_id, db)
+    return None
+
+
+@router.put('/{user_id}', response_model=UserResponseSchema, status_code=status.HTTP_200_OK, responses={
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
+    status.HTTP_409_CONFLICT: get_error_response("ERROR: CONFLICT", "Update user error {e}"),
+    status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def update_user(user_id: int, user: UpdateUserSchema, db: Session = Depends(get_db)):
+    edited_user = user_repository.update_user(user_id, user, db)
+    return edited_user
