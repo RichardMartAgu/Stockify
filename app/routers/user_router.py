@@ -20,10 +20,12 @@ router = APIRouter(
             description="This endpoint is available to SuperAdmin users.",
             responses={
                 status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
-                status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN","You do not have access to this resource."),
-                status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR","Internal Server Error"), })
+                status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN",
+                                                              "You do not have access to this resource."),
+                status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
+                                                                          "Internal Server Error"), })
 def get_users(db: Session = Depends(get_db),
-              current_user: TokenData = Depends(role_required(['User']))):
+              current_user: TokenData = Depends(role_required(['Admin']))):
     data = user_repository.get_users(db)
     return data
 
@@ -40,7 +42,8 @@ def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
 
 
 @router.get('/{user_id}', response_model=UserResponseSchema, status_code=status.HTTP_200_OK, responses={
-    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated or invalid role provided"),
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
+                                                     "Not authenticated or invalid role provided"),
     status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})

@@ -2,7 +2,6 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.user_model import User
-from app.schemas.user_schema import UserResponseSchema
 from app.utils.hashing import Hash
 
 
@@ -26,12 +25,14 @@ def create_user(user, db: Session):
     try:
 
         admin_id = user.get("admin_id", None)
+        image_url = user.get("image_url", None)
 
         new_user = User(
             username=user["username"],
             password=Hash.hash_password(user["password"]),
             email=user["email"],
             role=user["role"],
+            image_url=image_url,
             admin_id=admin_id,
         )
 
@@ -75,19 +76,23 @@ def delete_user(user_id: int, db: Session):
 
 def update_user(user_id: int, user_update, db: Session):
     user = db.query(User).filter(User.id == user_id)
-    if not user.first():
+    user_instance = user.first()
+
+    if not user_instance:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with ID {user_id} does not exist"
         )
+
     try:
         user.update(user_update.dict(exclude_unset=True))
         db.commit()
+        db.refresh(user_instance)  # Refresca los datos después del commit
     except Exception as e:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error update user: {str(e)}"
+            detail=f"Error updating user: {str(e)}"
         )
-    updated_user = db.query(User).filter(User.id == user_id).first()
-    return updated_user
+
+    return user_instance
