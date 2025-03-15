@@ -10,13 +10,15 @@ class User(Base):
     default_image_url = "https://stockifystorage.s3.us-east-1.amazonaws.com/user_profiles/Flux_Dev_A_stylized_icon_for_a_modern_storage_company_featurin_1.jpeg"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True, index=True)
-    password = Column(String)
-    email = Column(String, unique=True, index=True, nullable=False)
-    role = Column(String, nullable=False)
-    image_url = Column(String, nullable=True, server_default=default_image_url)
+    username = Column(String(255), unique=True, index=True)
+    password = Column(String(255))
+    email = Column(String(255), unique=True, index=True, nullable=False)
+    role = Column(String(50), nullable=False)
+    image_url = Column(String(500), nullable=True, server_default=default_image_url)
+    admin_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 
-    admin_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=True)
-
+    # Relations
     employees = relationship("User", backref="admin", remote_side=[id], cascade="all, delete-orphan",
                              single_parent=True, passive_deletes=True)
+    owned_warehouses = relationship("Warehouse", back_populates="owner", cascade="all, delete-orphan", single_parent=True,
+                              passive_deletes=True)
