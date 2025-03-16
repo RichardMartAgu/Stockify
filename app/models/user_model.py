@@ -20,5 +20,6 @@ class User(Base):
     # Relations
     employees = relationship("User", backref="admin", remote_side=[id], cascade="all, delete-orphan",
                              single_parent=True, passive_deletes=True)
-    owned_warehouses = relationship("Warehouse", back_populates="owner", cascade="all, delete-orphan", single_parent=True,
-                              passive_deletes=True)
+    owned_warehouses = relationship("Warehouse", back_populates="owner", cascade="all, delete-orphan",
+                                    single_parent=True,
+                                    passive_deletes=True)

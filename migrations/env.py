@@ -12,9 +12,13 @@ config.set_main_option('sqlalchemy.url', settings.DATABASE_URL)
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
-from app.models.user_model import Base
+from app.db.database import Base
+from app.models.product_model import Product
+from app.models.warehouse_model import Warehouse
+from app.models.user_model import User
 
 target_metadata = Base.metadata
+
 
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.

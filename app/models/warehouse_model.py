@@ -11,7 +11,11 @@ class Warehouse(Base):
     name = Column(String(255), index=True, nullable=False)
     address = Column(String(255))
     phone = Column(String(50))
-    user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"),nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
 
     # Relations
     owner = relationship("User", back_populates="owned_warehouses")
+
+    warehouse_products = relationship("Product", back_populates="product_warehouses", cascade="all, delete-orphan",
+                                       single_parent=True,
+                                       passive_deletes=True)
