@@ -16,4 +16,4 @@ class Client(Base):
     address = Column(String(255))
 
     # Relations
-    client_transactions = relationship("Transaction", back_populates="transaction_clients")
+    client_transactions = relationship("Transaction", back_populates="transaction_client")

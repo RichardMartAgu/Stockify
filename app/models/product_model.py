@@ -21,8 +21,10 @@ class Product(Base):
     warehouse_id = Column(Integer, ForeignKey("warehouse.id", ondelete="CASCADE"), nullable=False)
 
     # Relations
-    product_warehouses = relationship("Warehouse", back_populates="warehouse_products")
-    transactions = relationship('Transaction', secondary=transaction_products, back_populates='products')
+    product_warehouse = relationship("Warehouse", back_populates="warehouse_products")
+    product_transactions = relationship('Transaction', secondary=transaction_products, back_populates='transaction_products')
+    product_alerts = relationship("Alert", back_populates="alert_product")
+
 
     # Constraints
     __table_args__ = (

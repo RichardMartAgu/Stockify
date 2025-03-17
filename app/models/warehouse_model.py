@@ -14,12 +14,8 @@ class Warehouse(Base):
     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
 
     # Relations
-    owner = relationship("User", back_populates="owned_warehouses")
+    warehouse_user = relationship("User", back_populates="user_warehouses")
 
-    warehouse_products = relationship("Product", back_populates="product_warehouses", cascade="all, delete-orphan",
-                                       single_parent=True,
-                                       passive_deletes=True)
+    warehouse_products = relationship("Product", back_populates="product_warehouse")
 
-    warehouse_transaction = relationship("Transaction", back_populates="transaction_warehouse", cascade="all, delete-orphan",
-                                       single_parent=True,
-                                       passive_deletes=True)
+    warehouse_transactions = relationship("Transaction", back_populates="transaction_warehouse")

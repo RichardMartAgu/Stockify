@@ -15,12 +15,7 @@ class Transaction(Base):
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
 
     # Relations
-    products = relationship('Product', secondary=transaction_products, back_populates='transactions')
-    transaction_warehouse = relationship("Warehouse", back_populates="warehouse_transaction")
-    transaction_clients = relationship("Client", back_populates="client_transactions")
+    transaction_products = relationship('Product', secondary=transaction_products, back_populates='product_transactions')
+    transaction_warehouse = relationship("Warehouse", back_populates="warehouse_transactions")
+    transaction_client = relationship("Client", back_populates="client_transactions")
 
-
-    # Constraints
-    __table_args__ = (
-        CheckConstraint('quantity >= 0', name='check_quantity_non_negative'),
-    )

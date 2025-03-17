@@ -18,8 +18,7 @@ class User(Base):
     admin_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 
     # Relations
-    employees = relationship("User", backref="admin", remote_side=[id], cascade="all, delete-orphan",
-                             single_parent=True, passive_deletes=True)
-    owned_warehouses = relationship("Warehouse", back_populates="owner", cascade="all, delete-orphan",
-                                    single_parent=True,
-                                    passive_deletes=True)
+    employees = relationship("User", backref="admin", remote_side=[id])
+    user_warehouses = relationship("Warehouse", back_populates="warehouse_user")
+    user_alerts = relationship("Alert", back_populates="alert_user")
+
