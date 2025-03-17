@@ -19,3 +19,7 @@ class Warehouse(Base):
     warehouse_products = relationship("Product", back_populates="product_warehouses", cascade="all, delete-orphan",
                                        single_parent=True,
                                        passive_deletes=True)
+
+    warehouse_transaction = relationship("Transaction", back_populates="transaction_warehouse", cascade="all, delete-orphan",
+                                       single_parent=True,
+                                       passive_deletes=True)

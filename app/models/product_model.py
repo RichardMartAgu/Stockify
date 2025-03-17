@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, String, ForeignKey, CheckConstraint, Num
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
+from app.models.transaction_products_midtable import transaction_products
 
 
 class Product(Base):
@@ -21,6 +22,7 @@ class Product(Base):
 
     # Relations
     product_warehouses = relationship("Warehouse", back_populates="warehouse_products")
+    transactions = relationship('Transaction', secondary=transaction_products, back_populates='products')
 
     # Constraints
     __table_args__ = (
