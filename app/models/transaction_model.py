@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, CheckConstraint, DateTime
+from sqlalchemy import Column, Integer, String, ForeignKey, CheckConstraint, DateTime, func
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -9,7 +9,7 @@ class Transaction(Base):
     __tablename__ = 'transaction'
 
     id = Column(Integer, primary_key=True, index=True)
-    date = Column(DateTime, index=True, nullable=False)
+    date = Column(DateTime, index=True, nullable=False, server_default=func.now())
     type = Column(String(50), index=True, nullable=False)
     warehouse_id = Column(Integer, ForeignKey("warehouse.id", ondelete="CASCADE"), nullable=False)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)

@@ -1,7 +1,8 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.routers import user_router, login_router, warehouse_router, product_router, transaction_router, client_router
+from app.routers import user_router, login_router, warehouse_router, product_router, transaction_router, client_router, \
+    alert_router
 
 app = FastAPI(title="Stockify.API")
 
@@ -10,6 +11,7 @@ app.include_router(warehouse_router.router)
 app.include_router(product_router.router)
 app.include_router(transaction_router.router)
 app.include_router(client_router.router)
+app.include_router(alert_router.router)
 app.include_router(login_router.router)
 
 
