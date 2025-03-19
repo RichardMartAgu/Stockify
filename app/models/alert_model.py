@@ -12,8 +12,8 @@ class Alert(Base):
     read = Column(Boolean, nullable=False, default=False)
     min_quantity = Column(Integer)
     max_quantity = Column(Integer)
-    max_message = Column(String(500))
-    min_message = Column(String(500))
+    max_message = Column(String(255))
+    min_message = Column(String(255))
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
 
@@ -31,4 +31,3 @@ class Alert(Base):
             name="check_discount_or_offer"
         ),
     )
-

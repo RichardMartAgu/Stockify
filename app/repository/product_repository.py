@@ -25,6 +25,7 @@ def create_product(product, db: Session):
 
         image_url = product.get("image_url", None)
         description = product.get("description", None)
+        kit_id = product.get("kit_id", None)
         category = product.get("category", None)
 
         new_product = Product(
@@ -33,6 +34,7 @@ def create_product(product, db: Session):
             serial_number=product["serial_number"],
             price=product["price"],
             description=description,
+            kit_id=kit_id,
             category=category,
             image_url=image_url,
             warehouse_id=product["warehouse_id"],

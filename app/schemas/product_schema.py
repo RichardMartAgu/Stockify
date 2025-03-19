@@ -8,6 +8,7 @@ example_serial_number = "A123456"
 example_price = 230.50
 example_description = "Ordenador clase media"
 example_category = "Ordenadores"
+kit_id = 5
 example_image_url = "https://stockifystorage.s3.us-east-1.amazonaws.com/user_profiles/Flux_Dev_A_stylized_icon_for_a_modern_storage_company_featurin_1.jpeg"
 
 
@@ -19,6 +20,7 @@ class ProductResponseSchema(BaseModel):
     price: condecimal(max_digits=10, decimal_places=2) = Field(examples=[example_price])
     description: Optional[str] = Field(examples=[example_description])
     category: Optional[str] = Field(examples=[example_category])
+    kit_id: Optional[int] = Field(examples=[kit_id])
     image_url: Optional[str] = Field(examples=[example_image_url])
     warehouse_id: int = Field(examples=[3])
 
@@ -30,6 +32,7 @@ class CreateProductSchema(BaseModel):
     price: condecimal(max_digits=10, decimal_places=2) = Field(examples=[example_price])
     description: Optional[str] = Field(examples=[example_description])
     category: Optional[str] = Field(examples=[example_category])
+    kit_id: Optional[int] = Field(examples=[kit_id])
     image_url: Optional[str] = Field(examples=[example_image_url])
     warehouse_id: int = Field(examples=[3])
 
@@ -41,5 +44,6 @@ class UpdateProductSchema(BaseModel):
     price: condecimal(max_digits=10, decimal_places=2) = Field(None,examples=[example_price])
     description: Optional[str] = Field(None,examples=[example_description])
     category: Optional[str] = Field(None,examples=[example_category])
+    kit_id: Optional[int] = Field(None,examples=[kit_id])
     image_url: Optional[str] = Field(None,examples=[example_image_url])
     warehouse_id: int = Field(None,examples=[3])

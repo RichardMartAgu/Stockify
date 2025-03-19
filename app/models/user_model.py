@@ -7,11 +7,12 @@ from app.db.database import Base
 class User(Base):
     __tablename__ = 'user'
 
+    # Default URL for the user image
     default_image_url = "https://stockifystorage.s3.us-east-1.amazonaws.com/user_profiles/Flux_Dev_A_stylized_icon_for_a_modern_storage_company_featurin_1.jpeg"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String(255), unique=True, index=True)
-    password = Column(String(255))
+    username = Column(String(150), unique=True, index=True)
+    password = Column(String(150))
     email = Column(String(255), unique=True, index=True, nullable=False)
     role = Column(String(50), nullable=False)
     image_url = Column(String(500), nullable=True, server_default=default_image_url)
