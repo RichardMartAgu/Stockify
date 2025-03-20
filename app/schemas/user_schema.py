@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel, Field, EmailStr
 
@@ -34,3 +34,17 @@ class UpdateUserSchema(BaseModel):
     role: Optional[str] = Field(None, examples=[example_role])
     image_url: Optional[str] = Field(None, examples=[example_image_url])
     admin_id: Optional[int] = Field(None, examples=["null"])
+
+# User employees schemas
+class EmployeesBase(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    username: str = Field(examples=[example_name])
+    email: EmailStr = Field(examples=[example_email])
+    role: str = Field(examples=[example_role])
+
+class UserEmployeesResponseSchema(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    username: str = Field(examples=[example_name])
+    email: EmailStr = Field(examples=[example_email])
+    role: str = Field(examples=[example_role])
+    users: Optional[List[EmployeesBase]]

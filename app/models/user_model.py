@@ -19,7 +19,6 @@ class User(Base):
     admin_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 
     # Relations
-    employees = relationship("User", backref="admin", remote_side=[id])
+    users = relationship("User", backref="admin", remote_side=[id], lazy="joined")
     user_warehouses = relationship("Warehouse", back_populates="warehouse_user")
     user_alerts = relationship("Alert", back_populates="alert_user")
-

@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.repository import user_repository
 from app.schemas.token_schema import TokenData
-from app.schemas.user_schema import UpdateUserSchema, CreateUserSchema, UserResponseSchema
+from app.schemas.user_schema import UpdateUserSchema, CreateUserSchema, UserResponseSchema, UserEmployeesResponseSchema
 from app.utils.error_response import get_error_response
 from app.utils.oauth import role_required
 
@@ -51,6 +51,15 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = user_repository.get_user_by_id(user_id, db)
     return user
 
+@router.get('/users/{user_id}', response_model=UserEmployeesResponseSchema, status_code=status.HTTP_200_OK, responses={
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
+                                                     "Not authenticated or invalid role provided"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    user = user_repository.get_users_by_user_id(user_id, db)
+    return user
 
 @router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT, responses={
     status.HTTP_204_NO_CONTENT: {"description": "NO_CONTENT"},

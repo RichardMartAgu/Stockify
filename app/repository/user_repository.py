@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from app.models.user_model import User
 from app.utils.hashing import Hash
@@ -18,6 +18,44 @@ def get_user_by_id(user_id: int, db: Session):
             detail=f"User with ID {user_id} does not exist"
         )
     return user
+
+def get_users_by_user_id(user_id: int, db: Session):
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} does not exist"
+        )
+
+    users = db.query(User).filter(User.admin_id == user_id).all()
+
+    if not users:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No users found under admin with ID {user_id}"
+        )
+
+    users_list = [
+        {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "role": user.role
+        }
+        for user in users
+    ]
+
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "role": user.role,
+        "users": users_list
+    }
+
+    return user_data
+
 
 
 def create_user(user, db: Session):
