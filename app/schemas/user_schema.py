@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import Optional, List
 
 from pydantic import BaseModel, Field, EmailStr
@@ -35,6 +36,7 @@ class UpdateUserSchema(BaseModel):
     image_url: Optional[str] = Field(None, examples=[example_image_url])
     admin_id: Optional[int] = Field(None, examples=["null"])
 
+# Relationship schemas
 # User employees schemas
 class EmployeesBase(BaseModel):
     id: Optional[int] = Field(examples=[5])
@@ -48,3 +50,35 @@ class UserEmployeesResponseSchema(BaseModel):
     email: EmailStr = Field(examples=[example_email])
     role: str = Field(examples=[example_role])
     users: Optional[List[EmployeesBase]]
+
+# User warehouses schemas
+class WarehousesBase(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    name: str = Field(examples=["Almacén principal"])
+    address: str = Field(examples=["Finca empresarial el unicornio nave 34"])
+    phone: str = Field(examples=["666555444"])
+
+class UserWarehousesResponseSchema(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    username: str = Field(examples=[example_name])
+    email: EmailStr = Field(examples=[example_email])
+    role: str = Field(examples=[example_role])
+    warehouses: Optional[List[WarehousesBase]]
+
+# User alerts schemas
+class AlertsBase(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    date: datetime = Field(examples=["2024-03-16T14:30:00"])
+    read: bool = Field(examples=[False])
+    min_quantity: Optional[int] = Field(None, examples=[None])
+    max_quantity: Optional[int] = Field(None, examples=[30])
+    max_message: Optional[str] = Field(None, examples=["Ya no puedes guardar más objetos de este tipo"])
+    min_message: Optional[str] = Field(None, examples=[None])
+    product_id: int = Field(examples=[2])
+
+class UserAlertsResponseSchema(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    username: str = Field(examples=[example_name])
+    email: EmailStr = Field(examples=[example_email])
+    role: str = Field(examples=[example_role])
+    alerts: Optional[List[AlertsBase]]

@@ -13,7 +13,7 @@ class Warehouse(Base):
     phone = Column(String(50))
     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
 
-    # Relations
+    # Relationship
     warehouse_user = relationship("User", back_populates="user_warehouses")
     warehouse_products = relationship("Product", back_populates="product_warehouse")
     warehouse_transactions = relationship("Transaction", back_populates="transaction_warehouse")

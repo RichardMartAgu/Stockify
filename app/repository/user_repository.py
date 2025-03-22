@@ -1,7 +1,9 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session, joinedload
 
+from app.models.alert_model import Alert
 from app.models.user_model import User
+from app.models.warehouse_model import Warehouse
 from app.utils.hashing import Hash
 
 
@@ -52,6 +54,84 @@ def get_users_by_user_id(user_id: int, db: Session):
         "email": user.email,
         "role": user.role,
         "users": users_list
+    }
+
+    return user_data
+
+def get_warehouses_by_user_id(user_id: int, db: Session):
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} does not exist"
+        )
+
+    warehouses = db.query(Warehouse).filter(Warehouse.user_id == user.id).all()
+
+    if not warehouses:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No warehouses found under admin with ID {user_id}"
+        )
+
+    warehouses_list = [
+        {
+            "id": warehouse.id,
+            "name": warehouse.name,
+            "address": warehouse.address,
+            "phone": warehouse.phone
+        }
+        for warehouse in warehouses
+    ]
+
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "role": user.role,
+        "warehouses": warehouses_list
+    }
+
+    return user_data
+
+def get_alerts_by_user_id(user_id: int, db: Session):
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} does not exist"
+        )
+
+    alerts = db.query(Alert).filter(Alert.user_id == user.id).all()
+
+    if not alerts:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No warehouses found under admin with ID {user_id}"
+        )
+
+    alerts_list = [
+        {
+            "id": alert.id,
+            "date": alert.date,
+            "read": alert.read,
+            "min_quantity": alert.min_quantity,
+            "max_quantity": alert.max_quantity,
+            "max_message": alert.min_quantity,
+            "min_message": alert.min_message,
+            "product_id": alert.product_id
+        }
+        for alert in alerts
+    ]
+
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "role": user.role,
+        "alerts": alerts_list
     }
 
     return user_data

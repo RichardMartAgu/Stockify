@@ -22,7 +22,7 @@ class Product(Base):
     image_url = Column(String(255), nullable=True, default=default_image_url)
     warehouse_id = Column(Integer, ForeignKey("warehouse.id", ondelete="CASCADE"), nullable=False)
 
-    # Relations
+    # Relationship
     product_kit = relationship("Product", backref="kit_products", remote_side=[id])
     product_warehouse = relationship("Warehouse", back_populates="warehouse_products")
     product_transactions = relationship('Transaction', secondary=transaction_products,

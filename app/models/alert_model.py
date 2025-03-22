@@ -17,7 +17,7 @@ class Alert(Base):
     product_id = Column(Integer, ForeignKey("product.id", ondelete="CASCADE"), nullable=False)
     user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
 
-    # Relations
+    # Relationship
     alert_product = relationship("Product", back_populates="product_alerts")
     alert_user = relationship("User", back_populates="user_alerts")
 

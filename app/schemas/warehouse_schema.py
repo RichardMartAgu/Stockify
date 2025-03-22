@@ -3,7 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 example_name = "Almacén principal"
-example_address = "Finca empresarial el unicornio nave 34 "
+example_address = "Finca empresarial el unicornio nave 34"
 example_phone = "666555444"
 
 

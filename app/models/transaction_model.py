@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, CheckConstraint, DateTime, func
+from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, func
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -14,8 +14,8 @@ class Transaction(Base):
     warehouse_id = Column(Integer, ForeignKey("warehouse.id", ondelete="CASCADE"), nullable=False)
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
 
-    # Relations
-    transaction_products = relationship('Product', secondary=transaction_products, back_populates='product_transactions')
+    # Relationship
+    transaction_products = relationship('Product', secondary=transaction_products,
+                                        back_populates='product_transactions')
     transaction_warehouse = relationship("Warehouse", back_populates="warehouse_transactions")
     transaction_client = relationship("Client", back_populates="client_transactions")
-
