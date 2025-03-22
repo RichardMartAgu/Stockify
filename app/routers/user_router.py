@@ -31,17 +31,6 @@ def get_users(db: Session = Depends(get_db),
     return data
 
 
-@router.post('/', response_model=UserResponseSchema, status_code=status.HTTP_201_CREATED, responses={
-    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
-    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
-    status.HTTP_409_CONFLICT: get_error_response("ERROR: CONFLICT", "Create user error {e}"),
-    status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
-    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
-def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
-    created_user = user_repository.create_user(user, db)
-    return created_user
-
-
 @router.get('/{user_id}', response_model=UserResponseSchema, status_code=status.HTTP_200_OK, responses={
     status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
                                                      "Not authenticated or invalid role provided"),
@@ -51,6 +40,7 @@ def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
 def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = user_repository.get_user_by_id(user_id, db)
     return user
+
 
 @router.get('/users/{user_id}', response_model=UserEmployeesResponseSchema, status_code=status.HTTP_200_OK, responses={
     status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
@@ -62,15 +52,21 @@ def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
     user = user_repository.get_users_by_user_id(user_id, db)
     return user
 
-@router.get('/warehouses/{user_id}', response_model=UserWarehousesResponseSchema, status_code=status.HTTP_200_OK, responses={
-    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
-                                                     "Not authenticated or invalid role provided"),
-    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
-    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
-    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+
+@router.get('/warehouses/{user_id}', response_model=UserWarehousesResponseSchema, status_code=status.HTTP_200_OK,
+            responses={
+                status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
+                                                                 "Not authenticated or invalid role provided"),
+                status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN",
+                                                              "You do not have access to this resource."),
+                status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND",
+                                                              "User with ID {user_id} does not exist"),
+                status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
+                                                                          "Internal Server Error")})
 def get_warehouses_by_user_id(user_id: int, db: Session = Depends(get_db)):
     user = user_repository.get_warehouses_by_user_id(user_id, db)
     return user
+
 
 @router.get('/alerts/{user_id}', response_model=UserAlertsResponseSchema, status_code=status.HTTP_200_OK, responses={
     status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
@@ -82,16 +78,16 @@ def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db)):
     user = user_repository.get_alerts_by_user_id(user_id, db)
     return user
 
-@router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT, responses={
-    status.HTTP_204_NO_CONTENT: {"description": "NO_CONTENT"},
 
+@router.post('/', response_model=UserResponseSchema, status_code=status.HTTP_201_CREATED, responses={
     status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
     status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
-    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
+    status.HTTP_409_CONFLICT: get_error_response("ERROR: CONFLICT", "Create user error {e}"),
+    status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
-def delete_user(user_id: int, db: Session = Depends(get_db)):
-    user_repository.delete_user(user_id, db)
-    return None
+def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
+    created_user = user_repository.create_user(user, db)
+    return created_user
 
 
 @router.put('/{user_id}', response_model=UserResponseSchema, status_code=status.HTTP_200_OK, responses={
@@ -104,3 +100,15 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 def update_user(user_id: int, user: UpdateUserSchema, db: Session = Depends(get_db)):
     edited_user = user_repository.update_user(user_id, user, db)
     return edited_user
+
+
+@router.delete('/{user_id}', status_code=status.HTTP_204_NO_CONTENT, responses={
+    status.HTTP_204_NO_CONTENT: {"description": "NO_CONTENT"},
+
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def delete_user(user_id: int, db: Session = Depends(get_db)):
+    user_repository.delete_user(user_id, db)
+    return None

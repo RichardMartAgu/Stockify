@@ -1,7 +1,7 @@
+from datetime import datetime
 from typing import Optional, List
 
 from pydantic import BaseModel, Field
-from sqlalchemy import DateTime
 
 example_product_id = 3
 example_quantity = 5
@@ -18,14 +18,21 @@ class ProductTransaction(BaseModel):
 
 class TransactionResponseSchema(BaseModel):
     id: Optional[int] = Field(examples=[5])
-    date: str = Field(examples=["2024-03-16T14:30:00"])
+    date: datetime = Field(examples=["2024-03-16T14:30:00"])
+    type: str = Field(examples=[example_type])
+    warehouse_id: Optional[int] = Field(examples=[example_warehouse_id])
+    client_id: Optional[int] = Field(examples=[example_client_id])
+
+
+class CreateTransactionSchema(BaseModel):
     type: str = Field(examples=[example_type])
     warehouse_id: Optional[int] = Field(examples=[example_warehouse_id])
     client_id: Optional[int] = Field(examples=[example_client_id])
     products: List[ProductTransaction]
 
-
-class CreateTransactionSchema(BaseModel):
+class TransactionProductsResponseSchema(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    date: datetime = Field(examples=["2024-03-16T14:30:00"])
     type: str = Field(examples=[example_type])
     warehouse_id: Optional[int] = Field(examples=[example_warehouse_id])
     client_id: Optional[int] = Field(examples=[example_client_id])

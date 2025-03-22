@@ -34,7 +34,7 @@ def create_client(client, db: Session):
             contact=contact,
             phone=phone,
             email=email,
-            admin_id=address,
+            address=address
         )
 
         try:

@@ -15,7 +15,6 @@ class Transaction(Base):
     client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
 
     # Relationship
-    transaction_products = relationship('Product', secondary=transaction_products,
-                                        back_populates='product_transactions')
+    products = relationship('Product', secondary=transaction_products, back_populates='transactions')
     transaction_warehouse = relationship("Warehouse", back_populates="warehouse_transactions")
     transaction_client = relationship("Client", back_populates="client_transactions")

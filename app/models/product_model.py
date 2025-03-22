@@ -25,8 +25,7 @@ class Product(Base):
     # Relationship
     product_kit = relationship("Product", backref="kit_products", remote_side=[id])
     product_warehouse = relationship("Warehouse", back_populates="warehouse_products")
-    product_transactions = relationship('Transaction', secondary=transaction_products,
-                                        back_populates='transaction_products')
+    transactions = relationship('Transaction', secondary=transaction_products, back_populates='products')
     product_alerts = relationship("Alert", back_populates="alert_product")
 
     # Constraints

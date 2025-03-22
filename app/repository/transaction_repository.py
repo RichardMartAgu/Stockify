@@ -1,7 +1,10 @@
+from datetime import datetime, UTC
+
 from fastapi import HTTPException, status
 from sqlalchemy import insert
 from sqlalchemy.orm import Session
 
+from app.models.product_model import Product
 from app.models.transaction_model import Transaction
 from app.models.transaction_products_midtable import transaction_products
 
@@ -21,11 +24,45 @@ def get_transaction_by_id(transaction_id: int, db: Session):
     return transaction
 
 
+def get_products_by_transaction_id(transaction_id: int, db: Session):
+    transaction = db.query(Transaction).filter(Transaction.id == transaction_id).first()
+
+    if not transaction:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Transaction with ID {transaction_id} does not exist"
+        )
+
+    products = db.query(Product).join(
+        transaction_products
+    ).filter(transaction_products.c.transaction_id == transaction_id).all()
+
+    products = [
+        {
+            "product_id": product.id,
+            "quantity": product.quantity
+        }
+        for product in products
+    ]
+
+    user_data = {
+        "id": transaction.id,
+        "date": transaction.date,
+        "type": transaction.type,
+        "warehouse_id": transaction.warehouse_id,
+        "client_id": transaction.client_id,
+        "products": products
+    }
+
+    return user_data
+
+
 def create_transaction(transaction_data, db: Session):
     try:
 
         new_transaction = Transaction(
             type=transaction_data.type,
+            date=datetime.now(UTC),
             warehouse_id=transaction_data.warehouse_id,
             client_id=transaction_data.client_id
         )
@@ -46,6 +83,15 @@ def create_transaction(transaction_data, db: Session):
             stmt = insert(transaction_products).values(product_entries)
             db.execute(stmt)
             db.commit()
+
+        new_transaction = {
+            "id": new_transaction.id,
+            "date": new_transaction.date,
+            "type": new_transaction.type,
+            "warehouse_id": new_transaction.warehouse_id,
+            "client_id": new_transaction.client_id,
+            "products": product_entries
+        }
 
         return new_transaction
 

@@ -2,6 +2,8 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.product_model import Product
+from app.models.transaction_model import Transaction
+from app.models.transaction_products_midtable import transaction_products
 
 
 def get_products(db: Session):
@@ -17,6 +19,103 @@ def get_product_by_id(product_id: int, db: Session):
             detail=f"Product with ID {product_id} does not exist"
         )
     return product
+
+
+def get_products_by_product_id(product_id: int, db: Session):
+    product = db.query(Product).filter(Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with ID {product_id} does not exist"
+        )
+
+    products = db.query(Product).filter(Product.kit_id == product_id).all()
+
+    if not products:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No products found under product with ID {product_id}"
+        )
+
+    products_list = [
+        {
+            "id": product.id,
+            "name": product.name,
+            "quantity": product.quantity,
+            "serial_number": product.serial_number,
+            "price": product.price,
+            "description": product.description,
+            "kit_id": product.kit_id,
+            "category": product.category,
+            "image_url": product.image_url,
+            "warehouse_id": product.warehouse_id
+        }
+        for product in products
+    ]
+
+    product_data = {
+        "id": product.id,
+        "name": product.name,
+        "quantity": product.quantity,
+        "serial_number": product.serial_number,
+        "price": product.price,
+        "description": product.description,
+        "category": product.category,
+        "image_url": product.image_url,
+        "warehouse_id": product.warehouse_id,
+        "kit_products": products_list
+    }
+
+    return product_data
+
+
+def get_transactions_by_product_id(product_id: int, db: Session):
+    product = db.query(Product).filter(Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with ID {product_id} does not exist"
+        )
+
+    transactions = (
+        db.query(Transaction)
+        .join(transaction_products, transaction_products.c.transaction_id == Transaction.id)
+        .filter(transaction_products.c.product_id == product.id)
+        .all()
+    )
+    if not transactions:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No transactions found under product with ID {product_id}"
+        )
+
+    transactions_list = [
+        {
+            "id": transaction.id,
+            "date": transaction.date,
+            "type": transaction.type,
+            "warehouse_id": transaction.warehouse_id,
+            "client_id": transaction.client_id
+        }
+        for transaction in transactions
+    ]
+
+    product_data = {
+        "id": product.id,
+        "name": product.name,
+        "quantity": product.quantity,
+        "serial_number": product.serial_number,
+        "price": product.price,
+        "description": product.description,
+        "category": product.category,
+        "image_url": product.image_url,
+        "warehouse_id": product.warehouse_id,
+        "transactions": transactions_list
+    }
+
+    return product_data
 
 
 def create_product(product, db: Session):
