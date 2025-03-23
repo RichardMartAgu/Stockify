@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.repository import client_repository
 from app.schemas.token_schema import TokenData
-from app.schemas.client_schema import UpdateClientSchema, CreateClientSchema, ClientResponseSchema
+from app.schemas.client_schema import UpdateClientSchema, CreateClientSchema, ClientResponseSchema, \
+    ClientTransactionsResponseSchema
 from app.utils.error_response import get_error_response
 from app.utils.oauth import role_required
 
@@ -49,6 +50,16 @@ def create_client(client: CreateClientSchema, db: Session = Depends(get_db)):
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_client_by_id(client_id: int, db: Session = Depends(get_db)):
     client = client_repository.get_client_by_id(client_id, db)
+    return client
+
+@router.get('/transactions/{client_id}', response_model=ClientTransactionsResponseSchema, status_code=status.HTTP_200_OK, responses={
+    status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
+                                                     "Not authenticated or invalid role provided"),
+    status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
+    status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "Client with ID {client_id} does not exist"),
+    status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
+def get_transactions_by_product_id(client_id: int, db: Session = Depends(get_db)):
+    client = client_repository.get_transactions_by_client_id(client_id, db)
     return client
 
 

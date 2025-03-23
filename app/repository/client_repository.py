@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.client_model import Client
+from app.models.transaction_model import Transaction
 
 
 def get_clients(db: Session):
@@ -17,6 +18,47 @@ def get_client_by_id(client_id: int, db: Session):
             detail=f"Client with ID {client_id} does not exist"
         )
     return client
+
+def get_transactions_by_client_id(client_id: int, db: Session):
+    client = db.query(Client).filter(Client.id == client_id).first()
+
+    if not client:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Client with ID {client_id} does not exist"
+        )
+
+    transactions = db.query(Transaction).filter(Transaction.client_id == client.id).all()
+
+    if not transactions:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No transactions found under client with ID {client_id}"
+        )
+
+    transactions_list = [
+        {
+            "id": transaction.id,
+            "date": transaction.date,
+            "type": transaction.type,
+            "warehouse_id": transaction.warehouse_id,
+            "client_id": transaction.client_id
+        }
+        for transaction in transactions
+    ]
+
+    client_data = {
+        "id": client.id,
+        "identifier": client.identifier,
+        "name": client.name,
+        "contact": client.contact,
+        "phone": client.phone,
+        "email": client.email,
+        "address": client.address,
+        "transactions": transactions_list
+    }
+
+    return client_data
 
 
 def create_client(client, db: Session):

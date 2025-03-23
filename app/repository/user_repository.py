@@ -109,7 +109,7 @@ def get_alerts_by_user_id(user_id: int, db: Session):
     if not alerts:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No warehouses found under admin with ID {user_id}"
+            detail=f"No alerts found under admin with ID {user_id}"
         )
 
     alerts_list = [

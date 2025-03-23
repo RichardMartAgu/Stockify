@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.models.alert_model import Alert
 from app.models.product_model import Product
 from app.models.transaction_model import Transaction
 from app.models.transaction_products_midtable import transaction_products
@@ -113,6 +114,52 @@ def get_transactions_by_product_id(product_id: int, db: Session):
         "image_url": product.image_url,
         "warehouse_id": product.warehouse_id,
         "transactions": transactions_list
+    }
+
+    return product_data
+
+def get_alerts_by_product_id(product_id: int, db: Session):
+    product = db.query(Product).filter(Product.id == product_id).first()
+
+    if not product:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with ID {product_id} does not exist"
+        )
+
+    alerts = db.query(Alert).filter(Alert.product_id == product.id).all()
+
+    if not alerts:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No alerts found under admin with ID {product_id}"
+        )
+
+    alerts_list = [
+        {
+            "id": alert.id,
+            "date": alert.date,
+            "read": alert.read,
+            "min_quantity": alert.min_quantity,
+            "max_quantity": alert.max_quantity,
+            "max_message": alert.min_quantity,
+            "min_message": alert.min_message,
+            "product_id": alert.product_id
+        }
+        for alert in alerts
+    ]
+
+    product_data = {
+        "id": product.id,
+        "name": product.name,
+        "quantity": product.quantity,
+        "serial_number": product.serial_number,
+        "price": product.price,
+        "description": product.description,
+        "category": product.category,
+        "image_url": product.image_url,
+        "warehouse_id": product.warehouse_id,
+        "alerts": alerts_list
     }
 
     return product_data
