@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
+from app.main import logger
 from app.repository import user_repository
 from app.schemas.token_schema import TokenData
 from app.schemas.user_schema import UpdateUserSchema, CreateUserSchema, UserResponseSchema, UserEmployeesResponseSchema, \
@@ -27,7 +28,9 @@ router = APIRouter(
                                                                           "Internal Server Error"), })
 def get_users(db: Session = Depends(get_db),
               current_user: TokenData = Depends(role_required(['Admin']))):
+    logger.info("[ROUTER] Fetching all users.")
     users_data = user_repository.get_users(db)
+    logger.info(f"[ROUTER] Fetched {len(users_data)} users.")
     return users_data
 
 
@@ -38,7 +41,9 @@ def get_users(db: Session = Depends(get_db),
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching user with ID {user_id}.")
     user = user_repository.get_user_by_id(user_id, db)
+    logger.info(f"[ROUTER] Found user: {user} with ID {user_id}.")
     return user
 
 
@@ -49,7 +54,9 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching users for user ID {user_id}.")
     users_user = user_repository.get_users_by_user_id(user_id, db)
+    logger.info(f"[ROUTER] Found {len(users_user)} users for user ID {user_id}.")
     return users_user
 
 
@@ -64,7 +71,9 @@ def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
                 status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
                                                                           "Internal Server Error")})
 def get_warehouses_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching warehouses for user ID {user_id}.")
     warehouses_user = user_repository.get_warehouses_by_user_id(user_id, db)
+    logger.info(f"[ROUTER] Found {len(warehouses_user)} warehouses for user ID {user_id}.")
     return warehouses_user
 
 
@@ -75,7 +84,9 @@ def get_warehouses_by_user_id(user_id: int, db: Session = Depends(get_db)):
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching alerts for user ID {user_id}.")
     alerts_user = user_repository.get_alerts_by_user_id(user_id, db)
+    logger.info(f"[ROUTER] Found {len(alerts_user)} alerts for user ID {user_id}.")
     return alerts_user
 
 
@@ -86,7 +97,9 @@ def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db)):
     status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
+    logger.info("[ROUTER] Creating new user.")
     created_user = user_repository.create_user(user, db)
+    logger.info(f"[ROUTER] User created: {created_user}")
     return created_user
 
 
@@ -98,7 +111,9 @@ def create_user(user: CreateUserSchema, db: Session = Depends(get_db)):
     status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def update_user(user_id: int, user: UpdateUserSchema, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Updating user with ID {user_id}.")
     edited_user = user_repository.update_user(user_id, user, db)
+    logger.info(f"[ROUTER] User with ID {user_id} updated: {edited_user}.")
     return edited_user
 
 
@@ -110,5 +125,7 @@ def update_user(user_id: int, user: UpdateUserSchema, db: Session = Depends(get_
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def delete_user(user_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Deleting user with ID {user_id}.")
     user_repository.delete_user(user_id, db)
+    logger.info(f"[ROUTER] User with ID {user_id} deleted.")
     return None

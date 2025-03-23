@@ -1,6 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
+from app.main import logger
 from app.models.alert_model import Alert
 from app.models.user_model import User
 from app.models.warehouse_model import Warehouse
@@ -8,141 +9,189 @@ from app.utils.hashing import Hash
 
 
 def get_users(db: Session):
-    data = db.query(User).all()
-    return data
+    try:
+        data = db.query(User).all()
+        logger.info(f"Fetched {len(data)} users from the database")
+        return data
+    except Exception as e:
+        logger.error(f"Error fetching users: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching users: {str(e)}"
+        )
 
 
 def get_user_by_id(user_id: int, db: Session):
-    user = db.query(User).filter(User.id == user_id).first()
-    if not user:
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        if not user:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
+        logger.info(f"User with ID {user_id} fetched successfully")
+        return user
+    except Exception as e:
+        logger.error(f"Error fetching user with ID {user_id}: {str(e)}")
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching user: {str(e)}"
         )
-    return user
 
 
 def get_users_by_user_id(user_id: int, db: Session):
-    user = db.query(User).filter(User.id == user_id).first()
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
 
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
-        )
+        if not user:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
 
-    users = db.query(User).filter(User.admin_id == user_id).all()
+        users = db.query(User).filter(User.admin_id == user_id).all()
 
-    if not users:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No users found under admin with ID {user_id}"
-        )
+        if not users:
+            logger.warning(f"No users found under admin with ID {user_id}")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No users found under admin with ID {user_id}"
+            )
 
-    users_list = [
-        {
+        users_list = [
+            {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": user.role
+            }
+            for user in users
+        ]
+
+        user_data = {
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "role": user.role
+            "role": user.role,
+            "users": users_list
         }
-        for user in users
-    ]
 
-    user_data = {
-        "id": user.id,
-        "username": user.username,
-        "email": user.email,
-        "role": user.role,
-        "users": users_list
-    }
-
-    return user_data
+        logger.info(f"Fetched users under admin with ID {user_id}")
+        return user_data
+    except Exception as e:
+        logger.error(f"Error fetching users under admin with ID {user_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching users: {str(e)}"
+        )
 
 
 def get_warehouses_by_user_id(user_id: int, db: Session):
-    user = db.query(User).filter(User.id == user_id).first()
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
 
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
-        )
+        if not user:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
 
-    warehouses = db.query(Warehouse).filter(Warehouse.user_id == user.id).all()
+        warehouses = db.query(Warehouse).filter(Warehouse.user_id == user.id).all()
 
-    if not warehouses:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No warehouses found under admin with ID {user_id}"
-        )
+        if not warehouses:
+            logger.warning(f"No warehouses found under user with ID {user_id}")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No warehouses found under user with ID {user_id}"
+            )
 
-    warehouses_list = [
-        {
-            "id": warehouse.id,
-            "name": warehouse.name,
-            "address": warehouse.address,
-            "phone": warehouse.phone
+        warehouses_list = [
+            {
+                "id": warehouse.id,
+                "name": warehouse.name,
+                "address": warehouse.address,
+                "phone": warehouse.phone
+            }
+            for warehouse in warehouses
+        ]
+
+        user_data = {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "role": user.role,
+            "warehouses": warehouses_list
         }
-        for warehouse in warehouses
-    ]
 
-    user_data = {
-        "id": user.id,
-        "username": user.username,
-        "email": user.email,
-        "role": user.role,
-        "warehouses": warehouses_list
-    }
-
-    return user_data
+        logger.info(f"Fetched warehouses under user with ID {user_id}")
+        return user_data
+    except Exception as e:
+        logger.error(f"Error fetching warehouses under user with ID {user_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching warehouses: {str(e)}"
+        )
 
 
 def get_alerts_by_user_id(user_id: int, db: Session):
-    user = db.query(User).filter(User.id == user_id).first()
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
 
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
-        )
+        if not user:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
 
-    alerts = db.query(Alert).filter(Alert.user_id == user.id).all()
+        alerts = db.query(Alert).filter(Alert.user_id == user.id).all()
 
-    if not alerts:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No alerts found under user with ID {user_id}"
-        )
+        if not alerts:
+            logger.warning(f"No alerts found under user with ID {user_id}")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"No alerts found under user with ID {user_id}"
+            )
 
-    alerts_list = [
-        {
-            "id": alert.id,
-            "date": alert.date,
-            "read": alert.read,
-            "min_quantity": alert.min_quantity,
-            "max_quantity": alert.max_quantity,
-            "max_message": alert.min_quantity,
-            "min_message": alert.min_message,
-            "product_id": alert.product_id
+        alerts_list = [
+            {
+                "id": alert.id,
+                "date": alert.date,
+                "read": alert.read,
+                "min_quantity": alert.min_quantity,
+                "max_quantity": alert.max_quantity,
+                "max_message": alert.min_quantity,
+                "min_message": alert.min_message,
+                "product_id": alert.product_id
+            }
+            for alert in alerts
+        ]
+
+        user_data = {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "role": user.role,
+            "alerts": alerts_list
         }
-        for alert in alerts
-    ]
 
-    user_data = {
-        "id": user.id,
-        "username": user.username,
-        "email": user.email,
-        "role": user.role,
-        "alerts": alerts_list
-    }
-
-    return user_data
+        logger.info(f"Fetched alerts under user with ID {user_id}")
+        return user_data
+    except Exception as e:
+        logger.error(f"Error fetching alerts under user with ID {user_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching alerts: {str(e)}"
+        )
 
 
 def create_user(user, db: Session):
-    user = user.dict()
     try:
+        logger.info("Creating new user")
+        user = user.dict()
 
         admin_id = user.get("admin_id", None)
         image_url = user.get("image_url", None)
@@ -156,60 +205,61 @@ def create_user(user, db: Session):
             admin_id=admin_id,
         )
 
-        try:
-            db.add(new_user)
-            db.commit()
-            db.refresh(new_user)
-            return new_user
-        except Exception as e:
-            db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error create user: {str(e)}"
-            )
-
+        db.add(new_user)
+        db.commit()
+        db.refresh(new_user)
+        logger.info(f"User created with ID {new_user.id}")
+        return new_user
     except Exception as e:
+        logger.error(f"Error creating user: {str(e)}")
+        db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create user conflict {e}"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating user: {str(e)}"
         )
 
 
 def update_user(user_id: int, user_update, db: Session):
-    user = db.query(User).filter(User.id == user_id)
-    user_instance = user.first()
-
-    if not user_instance:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
-        )
-
     try:
+        user = db.query(User).filter(User.id == user_id)
+        user_instance = user.first()
+
+        if not user_instance:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
+
         user.update(user_update.dict(exclude_unset=True))
         db.commit()
         db.refresh(user_instance)
+        logger.info(f"User with ID {user_id} updated successfully")
+        return user_instance
     except Exception as e:
+        logger.error(f"Error updating user with ID {user_id}: {str(e)}")
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error updating user: {str(e)}"
         )
 
-    return user_instance
-
 
 def delete_user(user_id: int, db: Session):
-    user_exists = db.query(User).filter(User.id == user_id).first()
-    if not user_exists:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
-        )
     try:
+        user_exists = db.query(User).filter(User.id == user_id).first()
+        if not user_exists:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
+
         db.query(User).filter(User.id == user_id).delete(synchronize_session=False)
         db.commit()
+        logger.info(f"User with ID {user_id} deleted successfully")
     except Exception as e:
+        logger.error(f"Error deleting user with ID {user_id}: {str(e)}")
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

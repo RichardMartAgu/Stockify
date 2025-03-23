@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
+from app.main import logger
 from app.repository import transaction_repository
 from app.schemas.token_schema import TokenData
 from app.schemas.transaction_schema import CreateTransactionSchema, TransactionResponseSchema, \
@@ -38,7 +39,9 @@ def get_transactions(db: Session = Depends(get_db),
     status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def create_transaction(transaction: CreateTransactionSchema, db: Session = Depends(get_db)):
+    logger.info("[ROUTER] Fetching all transactions.")
     created_transaction = transaction_repository.create_transaction(transaction, db)
+    logger.info(f"[ROUTER] Fetched {len(created_transaction)} transactions.")
     return created_transaction
 
 
@@ -50,7 +53,9 @@ def create_transaction(transaction: CreateTransactionSchema, db: Session = Depen
                                                   "Transaction with ID {transaction_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_transaction_by_id(transaction_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching transactions with ID {transaction_id}.")
     transaction = transaction_repository.get_transaction_by_id(transaction_id, db)
+    logger.info(f"[ROUTER] Found transactions: {transaction} with ID {transaction_id}.")
     return transaction
 
 
@@ -64,7 +69,9 @@ def get_transaction_by_id(transaction_id: int, db: Session = Depends(get_db)):
         status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
                                                                   "Internal Server Error")})
 def get_products_by_transaction_id(transaction_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching products for transaction ID {transaction_id}.")
     products_transaction = transaction_repository.get_products_by_transaction_id(transaction_id, db)
+    logger.info(f"[ROUTER] Found {len(products_transaction)} transactions for transaction ID {transaction_id}.")
     return products_transaction
 
 
@@ -77,5 +84,7 @@ def get_products_by_transaction_id(transaction_id: int, db: Session = Depends(ge
                                                   "Transaction with ID {transaction_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def delete_transaction(transaction_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Deleting transaction with ID {transaction_id}.")
     transaction_repository.delete_transaction(transaction_id, db)
+    logger.info(f"[ROUTER] Transaction with ID {transaction_id} deleted.")
     return None

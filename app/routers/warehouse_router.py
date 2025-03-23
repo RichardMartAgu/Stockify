@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
+from app.main import logger
 from app.repository import warehouse_repository
 from app.schemas.token_schema import TokenData
 from app.schemas.warehouse_schema import UpdateWarehouseSchema, CreateWarehouseSchema, WarehouseResponseSchema, \
@@ -27,7 +28,9 @@ router = APIRouter(
                                                                           "Internal Server Error"), })
 def get_warehouses(db: Session = Depends(get_db),
                    current_warehouse: TokenData = Depends(role_required(['Admin']))):
+    logger.info("[ROUTER] Fetching all warehouses.")
     warehouse_data = warehouse_repository.get_warehouses(db)
+    logger.info(f"[ROUTER] Fetched {len(warehouse_data)} warehouses.")
     return warehouse_data
 
 
@@ -39,7 +42,9 @@ def get_warehouses(db: Session = Depends(get_db),
                                                   "Warehouse with ID {warehouse_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_warehouse_by_id(warehouse_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching warehouse with ID {warehouse_id}.")
     warehouse = warehouse_repository.get_warehouse_by_id(warehouse_id, db)
+    logger.info(f"[ROUTER] Found warehouse: {warehouse} with ID {warehouse_id}.")
     return warehouse
 
 
@@ -53,8 +58,10 @@ def get_warehouse_by_id(warehouse_id: int, db: Session = Depends(get_db)):
                                                               "Warehouse with ID {warehouse_id} does not exist"),
                 status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
                                                                           "Internal Server Error")})
-def get_products_by_product_id(warehouse_id: int, db: Session = Depends(get_db)):
+def get_products_by_warehouse_id(warehouse_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching products for warehouse ID {warehouse_id}.")
     products_warehouse = warehouse_repository.get_products_by_warehouse_id(warehouse_id, db)
+    logger.info(f"[ROUTER] Found {len(products_warehouse)} products for client ID {warehouse_id}.")
     return products_warehouse
 
 
@@ -68,7 +75,9 @@ def get_products_by_product_id(warehouse_id: int, db: Session = Depends(get_db))
         status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
                                                                   "Internal Server Error")})
 def get_transactions_by_product_id(warehouse_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Fetching transactions for warehouse ID {warehouse_id}.")
     transactions_warehouse = warehouse_repository.get_transactions_by_warehouse_id(warehouse_id, db)
+    logger.info(f"[ROUTER] Found {len(transactions_warehouse)} transactions for client ID {warehouse_id}.")
     return transactions_warehouse
 
 
@@ -79,7 +88,9 @@ def get_transactions_by_product_id(warehouse_id: int, db: Session = Depends(get_
     status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def create_warehouse(warehouse: CreateWarehouseSchema, db: Session = Depends(get_db)):
+    logger.info("[ROUTER] Creating new warehouse.")
     created_warehouse = warehouse_repository.create_warehouse(warehouse, db)
+    logger.info(f"[ROUTER] Warehouse created: {created_warehouse}")
     return created_warehouse
 
 
@@ -92,7 +103,9 @@ def create_warehouse(warehouse: CreateWarehouseSchema, db: Session = Depends(get
     status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def update_warehouse(warehouse_id: int, warehouse: UpdateWarehouseSchema, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Updating warehouse with ID {warehouse_id}.")
     edited_warehouse = warehouse_repository.update_warehouse(warehouse_id, warehouse, db)
+    logger.info(f"[ROUTER] Warehouse with ID {warehouse_id} updated: {edited_warehouse}.")
     return edited_warehouse
 
 
@@ -105,5 +118,7 @@ def update_warehouse(warehouse_id: int, warehouse: UpdateWarehouseSchema, db: Se
                                                   "Warehouse with ID {warehouse_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def delete_warehouse(warehouse_id: int, db: Session = Depends(get_db)):
+    logger.info(f"[ROUTER] Deleting warehouse with ID {warehouse_id}.")
     warehouse_repository.delete_warehouse(warehouse_id, db)
+    logger.info(f"[ROUTER] Warehouse with ID {warehouse_id} deleted.")
     return None

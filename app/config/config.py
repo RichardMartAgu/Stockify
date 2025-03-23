@@ -11,7 +11,7 @@ class Settings:
 
     """Class to store project and database configuration."""
 
-    PROJECT_NAME:str = "PROYECTO-FAST-API"
+    PROJECT_NAME:str = "Stockify-API"
     PROJECT_VERSION:str = "1.0"
 
     POSTGRES_DB:str = os.getenv('POSTGRES_DB')

@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from app.config.config import settings
+from app.main import logger
 
 SQLALCHEMY_DATABASE_URL = settings.DATABASE_URL
 engine = create_engine(SQLALCHEMY_DATABASE_URL, echo=True)
@@ -11,9 +12,9 @@ Base.metadata.create_all(bind=engine)
 
 try:
     with engine.connect() as connection:
-        print("Successful connection to the database!")
+        logger.info("Successful connection to the database!")
 except Exception as e:
-    print(f"Error connecting to the database: {e}")
+    logger.error(f"Error connecting to the database: {e}")
 
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)

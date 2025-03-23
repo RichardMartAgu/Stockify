@@ -1,8 +1,17 @@
+import logging
+
 import uvicorn
 from fastapi import FastAPI
 
 from app.routers import user_router, login_router, warehouse_router, product_router, transaction_router, client_router, \
     alert_router
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+    handlers=[logging.FileHandler("StockifyAPI.log"), logging.StreamHandler()],
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Stockify.API")
 
