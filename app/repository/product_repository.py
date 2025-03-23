@@ -118,6 +118,7 @@ def get_transactions_by_product_id(product_id: int, db: Session):
 
     return product_data
 
+
 def get_alerts_by_product_id(product_id: int, db: Session):
     product = db.query(Product).filter(Product.id == product_id).first()
 
@@ -191,6 +192,7 @@ def create_product(product, db: Session):
             db.commit()
             db.refresh(new_product)
             return new_product
+
         except Exception as e:
             db.rollback()
             raise HTTPException(
@@ -199,10 +201,35 @@ def create_product(product, db: Session):
             )
 
     except Exception as e:
+        db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create product error {e}"
+            detail=f"Create product conflict {e}"
         )
+
+
+def update_product(product_id: int, product_update, db: Session):
+    product = db.query(Product).filter(Product.id == product_id)
+    product_instance = product.first()
+
+    if not product_instance:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Product with ID {product_id} does not exist"
+        )
+
+    try:
+        product.update(product_update.dict(exclude_unset=True))
+        db.commit()
+        db.refresh(product_instance)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating product: {str(e)}"
+        )
+
+    return product_instance
 
 
 def delete_product(product_id: int, db: Session):
@@ -222,27 +249,3 @@ def delete_product(product_id: int, db: Session):
             detail=f"Error deleting product: {str(e)}"
         )
     return None
-
-
-def update_product(product_id: int, product_update, db: Session):
-    product = db.query(Product).filter(Product.id == product_id)
-    product_instance = product.first()
-
-    if not product_instance:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Product with ID {product_id} does not exist"
-        )
-
-    try:
-        product.update(product_update.dict(exclude_unset=True))
-        db.commit()
-        db.refresh(product_instance)  # Refresca los datos después del commit
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating product: {str(e)}"
-        )
-
-    return product_instance

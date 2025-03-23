@@ -4,10 +4,10 @@ from typing import Optional
 from pydantic import BaseModel, Field, model_validator
 from pydantic_core.core_schema import ValidationInfo
 
-example_min_quantity = None
-example_max_quantity = 30
-example_max_message = "Ya no puedes guardar más objetos de este tipo"
-example_min_message = None
+example_min_quantity = 4
+example_max_quantity = None
+example_max_message = None
+example_min_message = "Producto a punto de agotarse"
 example_product_id = 2
 example_user_id = 5
 

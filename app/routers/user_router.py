@@ -18,7 +18,7 @@ router = APIRouter(
 
 
 @router.get('/', response_model=List[UserResponseSchema], status_code=status.HTTP_200_OK,
-            description="This endpoint is available to SuperAdmin users.",
+            description="This endpoint is available to Admin users.",
             responses={
                 status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED", "Not authenticated"),
                 status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN",
@@ -27,8 +27,8 @@ router = APIRouter(
                                                                           "Internal Server Error"), })
 def get_users(db: Session = Depends(get_db),
               current_user: TokenData = Depends(role_required(['Admin']))):
-    data = user_repository.get_users(db)
-    return data
+    users_data = user_repository.get_users(db)
+    return users_data
 
 
 @router.get('/{user_id}', response_model=UserResponseSchema, status_code=status.HTTP_200_OK, responses={
@@ -49,8 +49,8 @@ def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
-    user = user_repository.get_users_by_user_id(user_id, db)
-    return user
+    users_user = user_repository.get_users_by_user_id(user_id, db)
+    return users_user
 
 
 @router.get('/warehouses/{user_id}', response_model=UserWarehousesResponseSchema, status_code=status.HTTP_200_OK,
@@ -64,8 +64,8 @@ def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
                 status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
                                                                           "Internal Server Error")})
 def get_warehouses_by_user_id(user_id: int, db: Session = Depends(get_db)):
-    user = user_repository.get_warehouses_by_user_id(user_id, db)
-    return user
+    warehouses_user = user_repository.get_warehouses_by_user_id(user_id, db)
+    return warehouses_user
 
 
 @router.get('/alerts/{user_id}', response_model=UserAlertsResponseSchema, status_code=status.HTTP_200_OK, responses={
@@ -75,8 +75,8 @@ def get_warehouses_by_user_id(user_id: int, db: Session = Depends(get_db)):
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
 def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db)):
-    user = user_repository.get_alerts_by_user_id(user_id, db)
-    return user
+    alerts_user = user_repository.get_alerts_by_user_id(user_id, db)
+    return alerts_user
 
 
 @router.post('/', response_model=UserResponseSchema, status_code=status.HTTP_201_CREATED, responses={

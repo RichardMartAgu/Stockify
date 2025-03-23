@@ -20,6 +20,7 @@ def get_warehouse_by_id(warehouse_id: int, db: Session):
         )
     return warehouse
 
+
 def get_products_by_warehouse_id(warehouse_id: int, db: Session):
     warehouse = db.query(Warehouse).filter(Warehouse.id == warehouse_id).first()
 
@@ -58,6 +59,7 @@ def get_products_by_warehouse_id(warehouse_id: int, db: Session):
     }
 
     return warehouse_data
+
 
 def get_transactions_by_warehouse_id(warehouse_id: int, db: Session):
     warehouse = db.query(Warehouse).filter(Warehouse.id == warehouse_id).first()
@@ -99,7 +101,6 @@ def get_transactions_by_warehouse_id(warehouse_id: int, db: Session):
     return warehouse_data
 
 
-
 def create_warehouse(warehouse, db: Session):
     warehouse = warehouse.dict()
     try:
@@ -130,8 +131,32 @@ def create_warehouse(warehouse, db: Session):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create warehouse error {e}"
+            detail=f"Create warehouse conflict {str(e)}"
         )
+
+
+def update_warehouse(warehouse_id: int, warehouse_update, db: Session):
+    warehouse = db.query(Warehouse).filter(Warehouse.id == warehouse_id)
+    warehouse_instance = warehouse.first()
+
+    if not warehouse_instance:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Warehouse with ID {warehouse_id} does not exist"
+        )
+
+    try:
+        warehouse.update(warehouse_update.dict(exclude_unset=True))
+        db.commit()
+        db.refresh(warehouse_instance)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating warehouse: {str(e)}"
+        )
+
+    return warehouse_instance
 
 
 def delete_warehouse(warehouse_id: int, db: Session):
@@ -151,27 +176,3 @@ def delete_warehouse(warehouse_id: int, db: Session):
             detail=f"Error deleting warehouse: {str(e)}"
         )
     return None
-
-
-def update_warehouse(warehouse_id: int, warehouse_update, db: Session):
-    warehouse = db.query(Warehouse).filter(Warehouse.id == warehouse_id)
-    warehouse_instance = warehouse.first()
-
-    if not warehouse_instance:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Warehouse with ID {warehouse_id} does not exist"
-        )
-
-    try:
-        warehouse.update(warehouse_update.dict(exclude_unset=True))
-        db.commit()
-        db.refresh(warehouse_instance)  # Refresca los datos después del commit
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating warehouse: {str(e)}"
-        )
-
-    return warehouse_instance

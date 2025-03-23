@@ -31,7 +31,7 @@ def create_alert(alert, db: Session):
 
         new_alert = Alert(
 
-            date = datetime.now(UTC),
+            date=datetime.now(UTC),
             read=alert["read"],
             min_quantity=alert["min_quantity"],
             max_quantity=max_quantity,
@@ -57,8 +57,32 @@ def create_alert(alert, db: Session):
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create alert error {e}"
+            detail=f"Create alert conflict {e}"
         )
+
+
+def update_alert(alert_id: int, alert_update, db: Session):
+    alert = db.query(Alert).filter(Alert.id == alert_id)
+    alert_instance = alert.first()
+
+    if not alert_instance:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Alert with ID {alert_id} does not exist"
+        )
+
+    try:
+        alert.update(alert_update.dict(exclude_unset=True))
+        db.commit()
+        db.refresh(alert_instance)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating alert: {str(e)}"
+        )
+
+    return alert_instance
 
 
 def delete_alert(alert_id: int, db: Session):
@@ -78,27 +102,3 @@ def delete_alert(alert_id: int, db: Session):
             detail=f"Error deleting alert: {str(e)}"
         )
     return None
-
-
-def update_alert(alert_id: int, alert_update, db: Session):
-    alert = db.query(Alert).filter(Alert.id == alert_id)
-    alert_instance = alert.first()
-
-    if not alert_instance:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Alert with ID {alert_id} does not exist"
-        )
-
-    try:
-        alert.update(alert_update.dict(exclude_unset=True))
-        db.commit()
-        db.refresh(alert_instance)  # Refresca los datos después del commit
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating alert: {str(e)}"
-        )
-
-    return alert_instance

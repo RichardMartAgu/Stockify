@@ -19,6 +19,7 @@ def get_client_by_id(client_id: int, db: Session):
         )
     return client
 
+
 def get_transactions_by_client_id(client_id: int, db: Session):
     client = db.query(Client).filter(Client.id == client_id).first()
 
@@ -92,10 +93,35 @@ def create_client(client, db: Session):
             )
 
     except Exception as e:
+        db.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create client error {e}"
+            detail=f"Create client conflict {str(e)}"
         )
+
+
+def update_client(client_id: int, client_update, db: Session):
+    client = db.query(Client).filter(Client.id == client_id)
+    client_instance = client.first()
+
+    if not client_instance:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Client with ID {client_id} does not exist"
+        )
+
+    try:
+        client.update(client_update.dict(exclude_unset=True))
+        db.commit()
+        db.refresh(client_instance)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating client: {str(e)}"
+        )
+
+    return client_instance
 
 
 def delete_client(client_id: int, db: Session):
@@ -115,27 +141,3 @@ def delete_client(client_id: int, db: Session):
             detail=f"Error deleting client: {str(e)}"
         )
     return None
-
-
-def update_client(client_id: int, client_update, db: Session):
-    client = db.query(Client).filter(Client.id == client_id)
-    client_instance = client.first()
-
-    if not client_instance:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Client with ID {client_id} does not exist"
-        )
-
-    try:
-        client.update(client_update.dict(exclude_unset=True))
-        db.commit()
-        db.refresh(client_instance)  # Refresca los datos después del commit
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating client: {str(e)}"
-        )
-
-    return client_instance

@@ -1,5 +1,5 @@
 from fastapi import HTTPException, status
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import Session
 
 from app.models.alert_model import Alert
 from app.models.user_model import User
@@ -20,6 +20,7 @@ def get_user_by_id(user_id: int, db: Session):
             detail=f"User with ID {user_id} does not exist"
         )
     return user
+
 
 def get_users_by_user_id(user_id: int, db: Session):
     user = db.query(User).filter(User.id == user_id).first()
@@ -58,6 +59,7 @@ def get_users_by_user_id(user_id: int, db: Session):
 
     return user_data
 
+
 def get_warehouses_by_user_id(user_id: int, db: Session):
     user = db.query(User).filter(User.id == user_id).first()
 
@@ -95,6 +97,7 @@ def get_warehouses_by_user_id(user_id: int, db: Session):
 
     return user_data
 
+
 def get_alerts_by_user_id(user_id: int, db: Session):
     user = db.query(User).filter(User.id == user_id).first()
 
@@ -109,7 +112,7 @@ def get_alerts_by_user_id(user_id: int, db: Session):
     if not alerts:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No alerts found under admin with ID {user_id}"
+            detail=f"No alerts found under user with ID {user_id}"
         )
 
     alerts_list = [
@@ -135,7 +138,6 @@ def get_alerts_by_user_id(user_id: int, db: Session):
     }
 
     return user_data
-
 
 
 def create_user(user, db: Session):
@@ -169,8 +171,32 @@ def create_user(user, db: Session):
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create user error {e}"
+            detail=f"Create user conflict {e}"
         )
+
+
+def update_user(user_id: int, user_update, db: Session):
+    user = db.query(User).filter(User.id == user_id)
+    user_instance = user.first()
+
+    if not user_instance:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} does not exist"
+        )
+
+    try:
+        user.update(user_update.dict(exclude_unset=True))
+        db.commit()
+        db.refresh(user_instance)
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating user: {str(e)}"
+        )
+
+    return user_instance
 
 
 def delete_user(user_id: int, db: Session):
@@ -190,27 +216,3 @@ def delete_user(user_id: int, db: Session):
             detail=f"Error deleting user: {str(e)}"
         )
     return None
-
-
-def update_user(user_id: int, user_update, db: Session):
-    user = db.query(User).filter(User.id == user_id)
-    user_instance = user.first()
-
-    if not user_instance:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"User with ID {user_id} does not exist"
-        )
-
-    try:
-        user.update(user_update.dict(exclude_unset=True))
-        db.commit()
-        db.refresh(user_instance)  # Refresca los datos después del commit
-    except Exception as e:
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating user: {str(e)}"
-        )
-
-    return user_instance

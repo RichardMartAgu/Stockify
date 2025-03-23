@@ -37,6 +37,12 @@ def get_products_by_transaction_id(transaction_id: int, db: Session):
         transaction_products
     ).filter(transaction_products.c.transaction_id == transaction_id).all()
 
+    if not products:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"No products found under admin with ID {transaction_id}"
+        )
+
     products = [
         {
             "product_id": product.id,
@@ -67,39 +73,47 @@ def create_transaction(transaction_data, db: Session):
             client_id=transaction_data.client_id
         )
 
-        db.add(new_transaction)
-        db.commit()
-        db.refresh(new_transaction)
+        try:
 
-        product_entries = []
-        for product in transaction_data.products:
-            product_entries.append({
-                "transaction_id": new_transaction.id,
-                "product_id": product.product_id,
-                "quantity": product.quantity
-            })
-
-        if product_entries:
-            stmt = insert(transaction_products).values(product_entries)
-            db.execute(stmt)
+            db.add(new_transaction)
             db.commit()
+            db.refresh(new_transaction)
 
-        new_transaction = {
-            "id": new_transaction.id,
-            "date": new_transaction.date,
-            "type": new_transaction.type,
-            "warehouse_id": new_transaction.warehouse_id,
-            "client_id": new_transaction.client_id,
-            "products": product_entries
-        }
+            product_entries = []
+            for product in transaction_data.products:
+                product_entries.append({
+                    "transaction_id": new_transaction.id,
+                    "product_id": product.product_id,
+                    "quantity": product.quantity
+                })
 
-        return new_transaction
+            if product_entries:
+                stmt = insert(transaction_products).values(product_entries)
+                db.execute(stmt)
+                db.commit()
+
+            new_transaction = {
+                "id": new_transaction.id,
+                "date": new_transaction.date,
+                "type": new_transaction.type,
+                "warehouse_id": new_transaction.warehouse_id,
+                "client_id": new_transaction.client_id,
+                "products": product_entries
+            }
+            return new_transaction
+
+        except Exception as e:
+            db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error create transaction: {str(e)}"
+            )
 
     except Exception as e:
         db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error al crear la transacción: {str(e)}"
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Create transaction conflict {e}"
         )
 
 

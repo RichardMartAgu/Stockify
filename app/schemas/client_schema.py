@@ -38,8 +38,8 @@ class UpdateClientSchema(BaseModel):
     email: Optional[EmailStr] = Field(None, examples=[example_email])
     address: Optional[str] = Field(None, examples=[example_address])
 
+# Relationship schemas
 # Client transactions schemas
-
 class TransactionsBase(BaseModel):
     id: Optional[int] = Field(examples=[5])
     date: datetime = Field(examples=["2024-03-16T14:30:00"])
