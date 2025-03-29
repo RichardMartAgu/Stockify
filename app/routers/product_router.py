@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.main import logger
+from app.utils.logger import logger
 from app.repository import product_repository
 from app.schemas.product_schema import UpdateProductSchema, CreateProductSchema, ProductResponseSchema, \
     ProductProductsResponseSchema, ProductTransactionsResponseSchema, ProductAlertsResponseSchema
@@ -26,8 +26,7 @@ router = APIRouter(
                                                               "You do not have access to this resource."),
                 status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
                                                                           "Internal Server Error"), })
-def get_products(db: Session = Depends(get_db),
-                 current_product: TokenData = Depends(role_required(['Admin']))):
+def get_products(db: Session = Depends(get_db)):
     logger.info("[ROUTER] Fetching all products.")
     product_data = product_repository.get_products(db)
     logger.info(f"[ROUTER] Fetched {len(product_data)} products.")

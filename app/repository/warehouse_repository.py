@@ -1,7 +1,7 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
-from app.main import logger
+from app.utils.logger import logger
 from app.models.product_model import Product
 from app.models.transaction_model import Transaction
 from app.models.warehouse_model import Warehouse

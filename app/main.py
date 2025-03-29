@@ -2,6 +2,7 @@ import logging
 
 import uvicorn
 from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
 
 from app.routers import user_router, login_router, warehouse_router, product_router, transaction_router, client_router, \
     alert_router
@@ -14,6 +15,13 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Stockify.API")
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # 👈 Puedes restringirlo a ["http://localhost:8100"]
+    allow_credentials=True,
+    allow_methods=["*"],  # 👈 Permitir todos los métodos (GET, POST, etc.)
+    allow_headers=["*"],  # 👈 Permitir todos los headers
+)
 
 # Including routers to handle different endpoints
 app.include_router(user_router.router)

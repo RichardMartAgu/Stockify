@@ -20,7 +20,6 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
 
 def role_required(roles: List[str]):
     def wrapper(current_user: TokenData = Depends(get_current_user)):
-        # Verifica si el rol del usuario está en la lista de roles permitidos
         if current_user.role not in roles:
             raise HTTPException(
                 status_code=status.HTTP_403_FORBIDDEN,

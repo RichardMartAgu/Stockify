@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.main import logger
+from app.utils.logger import logger
 from app.repository import client_repository
 from app.schemas.client_schema import UpdateClientSchema, CreateClientSchema, ClientResponseSchema, \
     ClientTransactionsResponseSchema

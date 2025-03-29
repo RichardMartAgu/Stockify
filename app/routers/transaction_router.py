@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
 from app.db.database import get_db
-from app.main import logger
+from app.utils.logger import logger
 from app.repository import transaction_repository
 from app.schemas.token_schema import TokenData
 from app.schemas.transaction_schema import CreateTransactionSchema, TransactionResponseSchema, \
