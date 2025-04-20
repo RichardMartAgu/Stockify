@@ -23,4 +23,12 @@ def auth_user(user, db: Session):
     access_token = create_access_token(
         data={"sub": user.username, "role": db_user.role}
     )
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "id": db_user.id,
+        "username": db_user.username,
+        "email":db_user.email,
+        "image_url": db_user.image_url,
+
+    }
