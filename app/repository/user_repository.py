@@ -186,7 +186,13 @@ def update_user(user_id: int, user_update, db: Session):
         )
 
     try:
-        user.update(user_update.dict(exclude_unset=True))
+
+        user_data = user_update.dict(exclude_unset=True)
+
+        if "password" in user_data:
+            user_data["password"] = Hash.hash_password(user_data["password"])
+
+        user.update(user_data)
         db.commit()
         db.refresh(user_instance)
     except Exception as e:
