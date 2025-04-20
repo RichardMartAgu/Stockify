@@ -32,12 +32,6 @@ def get_products_by_warehouse_id(warehouse_id: int, db: Session):
 
     products = db.query(Product).filter(Product.warehouse_id == warehouse.id).all()
 
-    if not products:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No products found under warehouse with ID {warehouse_id}"
-        )
-
     products = [
         {
             "id": product.id,
