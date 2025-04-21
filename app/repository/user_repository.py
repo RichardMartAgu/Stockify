@@ -108,7 +108,7 @@ def get_clients_by_user_id(user_id: int, db: Session):
             "id": warehouse.id,
             "identifier": warehouse.identifier,
             "name": warehouse.name,
-            "contact": warehouse.name,
+            "contact": warehouse.contact,
             "phone": warehouse.phone,
             "email": warehouse.email,
             "address": warehouse.address,

@@ -74,13 +74,14 @@ class ClientsBase(BaseModel):
     phone: Optional[str] = Field(examples=["Juanito"])
     email: Optional[EmailStr] = Field(examples=["123456789"])
     address: Optional[str] = Field(examples=["AV/Sin nombre nº3"])
+    user_id: int = Field(examples=["1"])
 
 class UserClientsResponseSchema(BaseModel):
     id: Optional[int] = Field(examples=[5])
     username: str = Field(examples=[example_name])
     email: EmailStr = Field(examples=[example_email])
     role: str = Field(examples=[example_role])
-    warehouses: Optional[List[ClientsBase]]
+    clients: Optional[List[ClientsBase]]
 
 # User alerts schemas
 class AlertsBase(BaseModel):
