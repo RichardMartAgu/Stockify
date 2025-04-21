@@ -2,6 +2,7 @@ from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.models.alert_model import Alert
+from app.models.client_model import Client
 from app.models.user_model import User
 from app.models.warehouse_model import Warehouse
 from app.utils.hashing import Hash
@@ -71,12 +72,6 @@ def get_warehouses_by_user_id(user_id: int, db: Session):
 
     warehouses = db.query(Warehouse).filter(Warehouse.user_id == user.id).all()
 
-    if not warehouses:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No warehouses found under admin with ID {user_id}"
-        )
-
     warehouses_list = [
         {
             "id": warehouse.id,
@@ -93,6 +88,41 @@ def get_warehouses_by_user_id(user_id: int, db: Session):
         "email": user.email,
         "role": user.role,
         "warehouses": warehouses_list
+    }
+
+    return user_data
+
+def get_clients_by_user_id(user_id: int, db: Session):
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} does not exist"
+        )
+
+    clients = db.query(Client).filter(Client.user_id == user.id).all()
+
+    clients_list = [
+        {
+            "id": warehouse.id,
+            "identifier": warehouse.identifier,
+            "name": warehouse.name,
+            "contact": warehouse.name,
+            "phone": warehouse.phone,
+            "email": warehouse.email,
+            "address": warehouse.address,
+            "user_id": warehouse.user_id,
+        }
+        for warehouse in clients
+    ]
+
+    user_data = {
+        "id": user.id,
+        "username": user.username,
+        "email": user.email,
+        "role": user.role,
+        "clients": clients_list
     }
 
     return user_data

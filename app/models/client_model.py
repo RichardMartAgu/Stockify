@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -14,6 +14,8 @@ class Client(Base):
     phone = Column(String(50))
     email = Column(String(150))
     address = Column(String(200))
+    user_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"), nullable=False)
 
     # Relationship
+    client_user = relationship("User", back_populates="user_clients")
     client_transactions = relationship("Transaction", back_populates="transaction_client")

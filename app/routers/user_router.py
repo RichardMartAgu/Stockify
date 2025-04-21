@@ -7,7 +7,7 @@ from app.db.database import get_db
 from app.repository import user_repository
 from app.schemas.token_schema import TokenData
 from app.schemas.user_schema import UpdateUserSchema, CreateUserSchema, UserResponseSchema, UserEmployeesResponseSchema, \
-    UserWarehousesResponseSchema, UserAlertsResponseSchema
+    UserWarehousesResponseSchema, UserAlertsResponseSchema, UserClientsResponseSchema
 from app.utils.error_response import get_error_response
 from app.utils.oauth import role_required
 
@@ -66,6 +66,20 @@ def get_users_by_user_id(user_id: int, db: Session = Depends(get_db)):
 def get_warehouses_by_user_id(user_id: int, db: Session = Depends(get_db)):
     warehouses_user = user_repository.get_warehouses_by_user_id(user_id, db)
     return warehouses_user
+
+@router.get('/clients/{user_id}', response_model=UserClientsResponseSchema, status_code=status.HTTP_200_OK,
+            responses={
+                status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
+                                                                 "Not authenticated or invalid role provided"),
+                status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN",
+                                                              "You do not have access to this resource."),
+                status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND",
+                                                              "User with ID {user_id} does not exist"),
+                status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
+                                                                          "Internal Server Error")})
+def get_clients_by_user_id(user_id: int, db: Session = Depends(get_db)):
+    clients_user = user_repository.get_clients_by_user_id(user_id, db)
+    return clients_user
 
 
 @router.get('/alerts/{user_id}', response_model=UserAlertsResponseSchema, status_code=status.HTTP_200_OK, responses={

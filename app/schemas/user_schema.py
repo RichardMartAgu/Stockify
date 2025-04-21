@@ -65,6 +65,23 @@ class UserWarehousesResponseSchema(BaseModel):
     role: str = Field(examples=[example_role])
     warehouses: Optional[List[WarehousesBase]]
 
+# User clients schemas
+class ClientsBase(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    identifier: str = Field(examples=['1233456B'])
+    name: str = Field(examples=['TiendaSA'])
+    contact: Optional[str] = Field(examples=["tiendaSA@gmail.com"])
+    phone: Optional[str] = Field(examples=["Juanito"])
+    email: Optional[EmailStr] = Field(examples=["123456789"])
+    address: Optional[str] = Field(examples=["AV/Sin nombre nº3"])
+
+class UserClientsResponseSchema(BaseModel):
+    id: Optional[int] = Field(examples=[5])
+    username: str = Field(examples=[example_name])
+    email: EmailStr = Field(examples=[example_email])
+    role: str = Field(examples=[example_role])
+    warehouses: Optional[List[ClientsBase]]
+
 # User alerts schemas
 class AlertsBase(BaseModel):
     id: Optional[int] = Field(examples=[5])

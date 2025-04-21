@@ -21,4 +21,5 @@ class User(Base):
     # Relationship
     users = relationship("User", backref="admin", remote_side=[id], lazy="joined")
     user_warehouses = relationship("Warehouse", back_populates="warehouse_user")
+    user_clients = relationship("Client", back_populates="client_user")
     user_alerts = relationship("Alert", back_populates="alert_user")
