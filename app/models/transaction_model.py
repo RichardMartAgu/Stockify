@@ -9,10 +9,11 @@ class Transaction(Base):
     __tablename__ = 'transaction'
 
     id = Column(Integer, primary_key=True, index=True)
+    identifier = Column(String(100), index=True, nullable=False, unique=True)
     date = Column(DateTime, index=True, nullable=False, server_default=func.now())
     type = Column(String(50), index=True, nullable=False)
     warehouse_id = Column(Integer, ForeignKey("warehouse.id", ondelete="CASCADE"), nullable=False)
-    client_id = Column(Integer, ForeignKey("client.id"), nullable=False)
+    client_id = Column(Integer, ForeignKey("client.id"), nullable=True)
 
     # Relationship
     products = relationship('Product', secondary=transaction_products, back_populates='transactions')
