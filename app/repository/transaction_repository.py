@@ -47,6 +47,7 @@ def get_products_by_transaction_id(transaction_id: int, db: Session):
 
     user_data = {
         "id": transaction.id,
+        "identifier": transaction.identifier,
         "date": transaction.date,
         "type": transaction.type,
         "warehouse_id": transaction.warehouse_id,
@@ -61,6 +62,7 @@ def create_transaction(transaction_data, db: Session):
     try:
 
         new_transaction = Transaction(
+            identifier=transaction_data.identifier,
             type=transaction_data.type,
             date=datetime.now(UTC),
             warehouse_id=transaction_data.warehouse_id,
@@ -88,7 +90,8 @@ def create_transaction(transaction_data, db: Session):
 
             new_transaction = {
                 "id": new_transaction.id,
-                "date": new_transaction.date,
+                "identifier": new_transaction.identifier,
+                "date": new_transaction.date.isoformat(),
                 "type": new_transaction.type,
                 "warehouse_id": new_transaction.warehouse_id,
                 "client_id": new_transaction.client_id,

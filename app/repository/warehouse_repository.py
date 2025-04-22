@@ -69,6 +69,7 @@ def get_transactions_by_warehouse_id(warehouse_id: int, db: Session):
     transactions_list = [
         {
             "id": transaction.id,
+            "identifier": transaction.identifier,
             "date": transaction.date,
             "type": transaction.type,
             "warehouse_id": transaction.warehouse_id,

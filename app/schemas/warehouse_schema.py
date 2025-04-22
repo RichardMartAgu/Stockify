@@ -52,6 +52,7 @@ class WarehouseProductsResponseSchema(BaseModel):
 
 class TransactionsBase(BaseModel):
     id: Optional[int] = Field(examples=[5])
+    identifier: str = Field(examples=["A23232024"])
     date: datetime = Field(examples=["2024-03-16T14:30:00"])
     type: str = Field(examples=["in"])
     warehouse_id: Optional[int] = Field(examples=[3])
