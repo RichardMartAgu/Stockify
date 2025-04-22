@@ -27,12 +27,6 @@ def get_transaction_by_id(transaction_id: int, db: Session):
 def get_products_by_transaction_id(transaction_id: int, db: Session):
     transaction = db.query(Transaction).filter(Transaction.id == transaction_id).first()
 
-    if not transaction:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"Transaction with ID {transaction_id} does not exist"
-        )
-
     products = db.query(Product).join(
         transaction_products
     ).filter(transaction_products.c.transaction_id == transaction_id).all()

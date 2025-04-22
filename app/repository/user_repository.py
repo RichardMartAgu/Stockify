@@ -34,12 +34,6 @@ def get_users_by_user_id(user_id: int, db: Session):
 
     users = db.query(User).filter(User.admin_id == user_id).all()
 
-    if not users:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No users found under admin with ID {user_id}"
-        )
-
     users_list = [
         {
             "id": user.id,
@@ -138,12 +132,6 @@ def get_alerts_by_user_id(user_id: int, db: Session):
         )
 
     alerts = db.query(Alert).filter(Alert.user_id == user.id).all()
-
-    if not alerts:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No alerts found under user with ID {user_id}"
-        )
 
     alerts_list = [
         {

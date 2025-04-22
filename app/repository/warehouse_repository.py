@@ -66,12 +66,6 @@ def get_transactions_by_warehouse_id(warehouse_id: int, db: Session):
 
     transactions = db.query(Transaction).filter(Transaction.warehouse_id == warehouse.id).all()
 
-    if not transactions:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No transactions found under warehouse with ID {warehouse_id}"
-        )
-
     transactions_list = [
         {
             "id": transaction.id,

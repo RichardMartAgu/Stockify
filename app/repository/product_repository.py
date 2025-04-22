@@ -33,12 +33,6 @@ def get_products_by_product_id(product_id: int, db: Session):
 
     products = db.query(Product).filter(Product.kit_id == product_id).all()
 
-    if not products:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No products found under product with ID {product_id}"
-        )
-
     products_list = [
         {
             "id": product.id,
@@ -86,11 +80,6 @@ def get_transactions_by_product_id(product_id: int, db: Session):
         .filter(transaction_products.c.product_id == product.id)
         .all()
     )
-    if not transactions:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No transactions found under product with ID {product_id}"
-        )
 
     transactions_list = [
         {
@@ -129,12 +118,6 @@ def get_alerts_by_product_id(product_id: int, db: Session):
         )
 
     alerts = db.query(Alert).filter(Alert.product_id == product.id).all()
-
-    if not alerts:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No alerts found under admin with ID {product_id}"
-        )
 
     alerts_list = [
         {
