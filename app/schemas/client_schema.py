@@ -9,6 +9,7 @@ example_email = "tiendaSA@gmail.com"
 example_contact = "Juanito"
 example_phone = "123456789"
 example_address = "AV/Sin nombre nº3"
+example_user_id = "1"
 
 
 class ClientResponseSchema(BaseModel):
@@ -19,6 +20,7 @@ class ClientResponseSchema(BaseModel):
     phone: Optional[str] = Field(examples=[example_phone])
     email: Optional[EmailStr] = Field(examples=[example_email])
     address: Optional[str] = Field(examples=[example_address])
+    user_id: int = Field(examples=[example_user_id])
 
 
 class CreateClientSchema(BaseModel):
@@ -28,6 +30,7 @@ class CreateClientSchema(BaseModel):
     phone: Optional[str] = Field(examples=[example_phone])
     email: Optional[EmailStr] = Field(examples=[example_email])
     address: Optional[str] = Field(examples=[example_address])
+    user_id: int = Field(examples=[example_user_id])
 
 
 class UpdateClientSchema(BaseModel):
@@ -37,6 +40,7 @@ class UpdateClientSchema(BaseModel):
     phone: Optional[str] = Field(None, examples=[example_phone])
     email: Optional[EmailStr] = Field(None, examples=[example_email])
     address: Optional[str] = Field(None, examples=[example_address])
+    user_id: int = Field(examples=[example_user_id])
 
 # Relationship schemas
 # Client transactions schemas
@@ -56,3 +60,4 @@ class ClientTransactionsResponseSchema(BaseModel):
     email: Optional[EmailStr] = Field(examples=[example_email])
     address: Optional[str] = Field(examples=[example_address])
     transactions: Optional[List[TransactionsBase]]
+    user_id: int = Field(examples=[example_user_id])

@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.utils.logger import logger
 from app.models.alert_model import Alert
+from app.models.client_model import Client
 from app.models.user_model import User
 from app.models.warehouse_model import Warehouse
 from app.utils.hashing import Hash
@@ -53,13 +54,6 @@ def get_users_by_user_id(user_id: int, db: Session):
 
         users = db.query(User).filter(User.admin_id == user_id).all()
 
-        if not users:
-            logger.warning(f"No users found under admin with ID {user_id}")
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"No users found under admin with ID {user_id}"
-            )
-
         users_list = [
             {
                 "id": user.id,
@@ -100,13 +94,6 @@ def get_warehouses_by_user_id(user_id: int, db: Session):
             )
 
         warehouses = db.query(Warehouse).filter(Warehouse.user_id == user.id).all()
-
-        if not warehouses:
-            logger.warning(f"No warehouses found under user with ID {user_id}")
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"No warehouses found under user with ID {user_id}"
-            )
 
         warehouses_list = [
             {
@@ -189,6 +176,7 @@ def get_alerts_by_user_id(user_id: int, db: Session):
 
 
 def create_user(user, db: Session):
+    user = user.dict()
     try:
         logger.info("Creating new user")
         user = user.dict()
@@ -231,7 +219,14 @@ def update_user(user_id: int, user_update, db: Session):
                 detail=f"User with ID {user_id} does not exist"
             )
 
-        user.update(user_update.dict(exclude_unset=True))
+    try:
+
+        user_data = user_update.dict(exclude_unset=True)
+
+        if "password" in user_data:
+            user_data["password"] = Hash.hash_password(user_data["password"])
+
+        user.update(user_data)
         db.commit()
         db.refresh(user_instance)
         logger.info(f"User with ID {user_id} updated successfully")
@@ -243,6 +238,8 @@ def update_user(user_id: int, user_update, db: Session):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error updating user: {str(e)}"
         )
+
+    return user_instance
 
 
 def delete_user(user_id: int, db: Session):

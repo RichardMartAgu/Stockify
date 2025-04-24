@@ -66,6 +66,7 @@ def get_transactions_by_client_id(client_id: int, db: Session):
         "phone": client.phone,
         "email": client.email,
         "address": client.address,
+        "user_id": client.user_id,
         "transactions": transactions_list
     }
 
@@ -81,6 +82,7 @@ def create_client(client, db: Session):
         phone = client.get("phone", None)
         email = client.get("email", None)
         address = client.get("address", None)
+        user_id = client.get("user_id", None)
 
         new_client = Client(
             identifier=client["identifier"],
@@ -88,7 +90,8 @@ def create_client(client, db: Session):
             contact=contact,
             phone=phone,
             email=email,
-            address=address
+            address=address,
+            user_id = user_id,
         )
 
         try:

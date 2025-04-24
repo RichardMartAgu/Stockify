@@ -30,6 +30,7 @@ def get_warehouse_by_id(warehouse_id: int, db: Session):
 def get_products_by_warehouse_id(warehouse_id: int, db: Session):
     logger.info(f"Fetching products for warehouse with ID {warehouse_id}.")
     warehouse = db.query(Warehouse).filter(Warehouse.id == warehouse_id).first()
+
     if not warehouse:
         logger.error(f"Warehouse with ID {warehouse_id} does not exist.")
         raise HTTPException(
@@ -38,12 +39,6 @@ def get_products_by_warehouse_id(warehouse_id: int, db: Session):
         )
 
     products = db.query(Product).filter(Product.warehouse_id == warehouse.id).all()
-    if not products:
-        logger.error(f"No products found for warehouse with ID {warehouse_id}.")
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No products found under warehouse with ID {warehouse_id}"
-        )
 
     logger.info(f"Found {len(products)} products for warehouse ID {warehouse_id}.")
     products_list = [
@@ -72,6 +67,7 @@ def get_products_by_warehouse_id(warehouse_id: int, db: Session):
 def get_transactions_by_warehouse_id(warehouse_id: int, db: Session):
     logger.info(f"Fetching transactions for warehouse with ID {warehouse_id}.")
     warehouse = db.query(Warehouse).filter(Warehouse.id == warehouse_id).first()
+
     if not warehouse:
         logger.error(f"Warehouse with ID {warehouse_id} does not exist.")
         raise HTTPException(
@@ -80,17 +76,12 @@ def get_transactions_by_warehouse_id(warehouse_id: int, db: Session):
         )
 
     transactions = db.query(Transaction).filter(Transaction.warehouse_id == warehouse.id).all()
-    if not transactions:
-        logger.error(f"No transactions found for warehouse with ID {warehouse_id}.")
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"No transactions found under warehouse with ID {warehouse_id}"
-        )
 
     logger.info(f"Found {len(transactions)} transactions for warehouse ID {warehouse_id}.")
     transactions_list = [
         {
             "id": transaction.id,
+            "identifier": transaction.identifier,
             "date": transaction.date,
             "type": transaction.type,
             "warehouse_id": transaction.warehouse_id,
@@ -115,6 +106,7 @@ def create_warehouse(warehouse, db: Session):
     logger.info("Creating a new warehouse.")
     warehouse = warehouse.dict()
     try:
+
         address = warehouse.get("address", None)
         phone = warehouse.get("phone", None)
         user_id = warehouse.get("user_id", None)
@@ -138,6 +130,12 @@ def create_warehouse(warehouse, db: Session):
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error create warehouse: {str(e)}"
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail=f"Create warehouse conflict {str(e)}"
         )
 
 

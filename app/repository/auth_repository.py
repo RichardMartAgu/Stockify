@@ -25,13 +25,12 @@ def auth_user(user, db: Session):
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="Incorrect password"
             )
-
         access_token = create_access_token(
             data={"sub": user.username, "role": db_user.role}
         )
-
         logger.info(f"User {user.username} authenticated successfully.")
         return {"access_token": access_token, "token_type": "bearer"}
+
 
     except Exception as e:
         logger.error(f"Error during authentication process: {e}")
@@ -39,3 +38,15 @@ def auth_user(user, db: Session):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="An error occurred during authentication"
         )
+
+    return {
+        "access_token": access_token,
+        "token_type": "bearer",
+        "id": db_user.id,
+        "username": db_user.username,
+        "email":db_user.email,
+        "image_url": db_user.image_url,
+
+    }
+
+
