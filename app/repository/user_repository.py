@@ -82,6 +82,54 @@ def get_users_by_user_id(user_id: int, db: Session):
         )
 
 
+def get_clients_by_user_id(user_id: int, db: Session):
+    try:
+        logger.info(f"Fetching user with ID {user_id}")
+        user = db.query(User).filter(User.id == user_id).first()
+
+        if not user:
+            logger.warning(f"User with ID {user_id} not found")
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=f"User with ID {user_id} does not exist"
+            )
+
+        logger.info(f"User with ID {user_id} found. Fetching clients...")
+        clients = db.query(Client).filter(Client.user_id == user.id).all()
+
+        clients_list = [
+            {
+                "id": client.id,
+                "identifier": client.identifier,
+                "name": client.name,
+                "contact": client.contact,
+                "phone": client.phone,
+                "email": client.email,
+                "address": client.address,
+                "user_id": client.user_id,
+            }
+            for client in clients
+        ]
+
+        logger.info(f"Fetched {len(clients_list)} clients for user ID {user_id}")
+
+        user_data = {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "role": user.role,
+            "clients": clients_list
+        }
+
+        return user_data
+    except Exception as e:
+        logger.error(f"Error fetching clients for user ID {user_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error fetching clients: {str(e)}"
+        )
+
+
 def get_warehouses_by_user_id(user_id: int, db: Session):
     try:
         user = db.query(User).filter(User.id == user_id).first()
@@ -207,37 +255,35 @@ def create_user(user, db: Session):
 
 
 def update_user(user_id: int, user_update, db: Session):
+    user = db.query(User).filter(User.id == user_id)
+    user_instance = user.first()
 
-        user = db.query(User).filter(User.id == user_id)
-        user_instance = user.first()
+    if not user_instance:
+        logger.warning(f"User with ID {user_id} not found")
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"User with ID {user_id} does not exist"
+        )
 
-        if not user_instance:
-            logger.warning(f"User with ID {user_id} not found")
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail=f"User with ID {user_id} does not exist"
-            )
+    try:
 
-        try:
+        user_data = user_update.dict(exclude_unset=True)
 
-            user_data = user_update.dict(exclude_unset=True)
+        if "password" in user_data:
+            user_data["password"] = Hash.hash_password(user_data["password"])
 
-            if "password" in user_data:
-                user_data["password"] = Hash.hash_password(user_data["password"])
-
-            user.update(user_data)
-            db.commit()
-            db.refresh(user_instance)
-            logger.info(f"User with ID {user_id} updated successfully")
-            return user_instance
-        except Exception as e:
-            logger.error(f"Error updating user with ID {user_id}: {str(e)}")
-            db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error updating user: {str(e)}"
-            )
-
+        user.update(user_data)
+        db.commit()
+        db.refresh(user_instance)
+        logger.info(f"User with ID {user_id} updated successfully")
+        return user_instance
+    except Exception as e:
+        logger.error(f"Error updating user with ID {user_id}: {str(e)}")
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error updating user: {str(e)}"
+        )
 
 
 def delete_user(user_id: int, db: Session):
