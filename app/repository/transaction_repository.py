@@ -1,4 +1,4 @@
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 
 from fastapi import HTTPException, status
 from sqlalchemy import insert
@@ -61,26 +61,27 @@ def get_products_by_transaction_id(transaction_id: int, db: Session):
                 detail=f"No products found under transaction with ID {transaction_id}"
             )
 
-    products_list = [
-        {
-            "product_id": product.id,
-            "quantity": product.quantity
-        }
-        for product in products
-    ]
+        products_list = [
+            {
+                "product_id": product.id,
+                "quantity": product.quantity
+            }
+            for product in products
+        ]
 
-    transaction_data = {
-        "id": transaction.id,
-        "identifier": transaction.identifier,
-        "date": transaction.date,
-        "type": transaction.type,
-        "warehouse_id": transaction.warehouse_id,
-        "client_id": transaction.client_id,
-        "products": products
-    }
+        transaction_data = {
+            "id": transaction.id,
+            "identifier": transaction.identifier,
+            "date": transaction.date,
+            "type": transaction.type,
+            "warehouse_id": transaction.warehouse_id,
+            "client_id": transaction.client_id,
+            "products_list": products_list
+        }
 
         logger.info(f"Fetched products for transaction ID {transaction_id}")
         return transaction_data
+
     except Exception as e:
         logger.error(f"Error fetching products for transaction ID {transaction_id}: {str(e)}")
         raise HTTPException(
@@ -95,56 +96,48 @@ def create_transaction(transaction_data, db: Session):
         new_transaction = Transaction(
             identifier=transaction_data.identifier,
             type=transaction_data.type,
-            date=datetime.now(UTC),
+            date=datetime.now(timezone.utc),
             warehouse_id=transaction_data.warehouse_id,
             client_id=transaction_data.client_id
         )
 
-        try:
+        db.add(new_transaction)
+        db.commit()
+        db.refresh(new_transaction)
 
-            db.add(new_transaction)
+        logger.info(f"Transaction created with ID {new_transaction.id}")
+
+        product_entries = [
+            {
+                "transaction_id": new_transaction.id,
+                "product_id": product.product_id,
+                "quantity": product.quantity
+            }
+            for product in transaction_data.products
+        ]
+
+        if product_entries:
+            stmt = insert(transaction_products).values(product_entries)
+            db.execute(stmt)
             db.commit()
-            db.refresh(new_transaction)
-            logger.info(f"Transaction created with ID {new_transaction.id}")
+            logger.info(f"Inserted {len(product_entries)} products into transaction ID {new_transaction.id}")
 
-            product_entries = []
-            for product in transaction_data.products:
-                product_entries.append({
-                    "transaction_id": new_transaction.id,
-                    "product_id": product.product_id,
-                    "quantity": product.quantity
-                })
-
-            if product_entries:
-                stmt = insert(transaction_products).values(product_entries)
-                db.execute(stmt)
-                db.commit()
-                logger.info(f"Inserted {len(product_entries)} products into transaction ID {new_transaction.id}")
-
-                new_transaction = {
-                    "id": new_transaction.id,
-                    "identifier": new_transaction.identifier,
-                    "date": new_transaction.date.isoformat(),
-                    "type": new_transaction.type,
-                    "warehouse_id": new_transaction.warehouse_id,
-                    "client_id": new_transaction.client_id,
-                    "products": product_entries
-                }
-                return new_transaction
-
-        except Exception as e:
-            logger.error(f"Error creating transaction: {str(e)}")
-            db.rollback()
-            raise HTTPException(
-                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Error create transaction: {str(e)}"
-            )
+        return {
+            "id": new_transaction.id,
+            "identifier": new_transaction.identifier,
+            "date": new_transaction.date.isoformat(),
+            "type": new_transaction.type,
+            "warehouse_id": new_transaction.warehouse_id,
+            "client_id": new_transaction.client_id,
+            "products": product_entries
+        }
 
     except Exception as e:
+        logger.error(f"Error creating transaction: {str(e)}")
         db.rollback()
         raise HTTPException(
-            status_code=status.HTTP_409_CONFLICT,
-            detail=f"Create transaction conflict {e}"
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error creating transaction: {str(e)}"
         )
 
 

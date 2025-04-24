@@ -29,8 +29,15 @@ def auth_user(user, db: Session):
             data={"sub": user.username, "role": db_user.role}
         )
         logger.info(f"User {user.username} authenticated successfully.")
-        return {"access_token": access_token, "token_type": "bearer"}
 
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "id": db_user.id,
+            "username": db_user.username,
+            "email": db_user.email,
+            "image_url": db_user.image_url,
+        }
 
     except Exception as e:
         logger.error(f"Error during authentication process: {e}")
@@ -39,14 +46,5 @@ def auth_user(user, db: Session):
             detail="An error occurred during authentication"
         )
 
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "id": db_user.id,
-        "username": db_user.username,
-        "email":db_user.email,
-        "image_url": db_user.image_url,
-
-    }
 
 

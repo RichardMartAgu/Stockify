@@ -150,7 +150,7 @@ def get_alerts_by_user_id(user_id: int, db: Session):
                 "read": alert.read,
                 "min_quantity": alert.min_quantity,
                 "max_quantity": alert.max_quantity,
-                "max_message": alert.min_quantity,
+                "max_message": alert.max_message,
                 "min_message": alert.min_message,
                 "product_id": alert.product_id
             }
@@ -179,7 +179,6 @@ def create_user(user, db: Session):
     user = user.dict()
     try:
         logger.info("Creating new user")
-        user = user.dict()
 
         admin_id = user.get("admin_id", None)
         image_url = user.get("image_url", None)
@@ -208,7 +207,7 @@ def create_user(user, db: Session):
 
 
 def update_user(user_id: int, user_update, db: Session):
-    try:
+
         user = db.query(User).filter(User.id == user_id)
         user_instance = user.first()
 
@@ -219,27 +218,26 @@ def update_user(user_id: int, user_update, db: Session):
                 detail=f"User with ID {user_id} does not exist"
             )
 
-    try:
+        try:
 
-        user_data = user_update.dict(exclude_unset=True)
+            user_data = user_update.dict(exclude_unset=True)
 
-        if "password" in user_data:
-            user_data["password"] = Hash.hash_password(user_data["password"])
+            if "password" in user_data:
+                user_data["password"] = Hash.hash_password(user_data["password"])
 
-        user.update(user_data)
-        db.commit()
-        db.refresh(user_instance)
-        logger.info(f"User with ID {user_id} updated successfully")
-        return user_instance
-    except Exception as e:
-        logger.error(f"Error updating user with ID {user_id}: {str(e)}")
-        db.rollback()
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error updating user: {str(e)}"
-        )
+            user.update(user_data)
+            db.commit()
+            db.refresh(user_instance)
+            logger.info(f"User with ID {user_id} updated successfully")
+            return user_instance
+        except Exception as e:
+            logger.error(f"Error updating user with ID {user_id}: {str(e)}")
+            db.rollback()
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail=f"Error updating user: {str(e)}"
+            )
 
-    return user_instance
 
 
 def delete_user(user_id: int, db: Session):

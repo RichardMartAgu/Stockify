@@ -1,4 +1,4 @@
-from datetime import datetime, UTC
+from datetime import datetime, timezone
 
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
@@ -51,7 +51,7 @@ def create_alert(alert, db: Session):
         min_message = alert.get("min_message", None)
 
         new_alert = Alert(
-            date=datetime.now(UTC),
+            date=datetime.now(timezone.utc),
             read=alert["read"],
             min_quantity=alert["min_quantity"],
             max_quantity=max_quantity,
