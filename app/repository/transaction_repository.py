@@ -7,7 +7,9 @@ from sqlalchemy.orm import Session
 from app.utils.logger import logger
 from app.models.product_model import Product
 from app.models.transaction_model import Transaction
-from app.models.transaction_products_midtable import transaction_products
+from app.models.transaction_products_midtable import TransactionProduct
+from app.utils.identifier import generate_identifier
+
 
 
 def get_transactions(db: Session):
@@ -94,7 +96,7 @@ def create_transaction(transaction_data, db: Session):
     try:
         logger.info("Creating new transaction")
         new_transaction = Transaction(
-            identifier=transaction_data.identifier,
+            identifier=generate_identifier(db),
             type=transaction_data.type,
             date=datetime.now(timezone.utc),
             warehouse_id=transaction_data.warehouse_id,
@@ -117,7 +119,7 @@ def create_transaction(transaction_data, db: Session):
         ]
 
         if product_entries:
-            stmt = insert(transaction_products).values(product_entries)
+            stmt = insert(TransactionProduct).values(product_entries)
             db.execute(stmt)
             db.commit()
             logger.info(f"Inserted {len(product_entries)} products into transaction ID {new_transaction.id}")

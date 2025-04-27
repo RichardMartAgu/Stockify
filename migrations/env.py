@@ -19,6 +19,7 @@ from app.models.client_model import Client
 from app.models.warehouse_model import Warehouse
 from app.models.alert_model import Alert
 from app.models.user_model import User
+from app.models.transaction_products_midtable import TransactionProduct
 
 target_metadata = Base.metadata
 
