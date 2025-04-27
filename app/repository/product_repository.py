@@ -5,7 +5,7 @@ from app.utils.logger import logger
 from app.models.alert_model import Alert
 from app.models.product_model import Product
 from app.models.transaction_model import Transaction
-from app.models.transaction_products_midtable import transaction_products
+from app.models.transaction_products_midtable import TransactionProduct
 
 
 def get_products(db: Session):
@@ -92,8 +92,8 @@ def get_transactions_by_product_id(product_id: int, db: Session):
 
     transactions = (
         db.query(Transaction)
-        .join(transaction_products, transaction_products.c.transaction_id == Transaction.id)
-        .filter(transaction_products.c.product_id == product.id)
+        .join(Transaction.transaction_products)
+        .filter(TransactionProduct.product_id == product.id)
         .all()
     )
     if not transactions:

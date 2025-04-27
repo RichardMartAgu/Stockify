@@ -8,7 +8,7 @@ from app.utils.logger import logger
 from app.repository import warehouse_repository
 from app.schemas.token_schema import TokenData
 from app.schemas.warehouse_schema import UpdateWarehouseSchema, CreateWarehouseSchema, WarehouseResponseSchema, \
-    WarehouseProductsResponseSchema, WarehouseTransactionsResponseSchema
+    WarehouseProductsResponseSchema, WarehouseTransactionsResponseSchema, warehouse_example
 from app.utils.error_response import get_error_response
 from app.utils.oauth import role_required
 
@@ -65,16 +65,24 @@ def get_products_by_warehouse_id(warehouse_id: int, db: Session = Depends(get_db
     return products_warehouse
 
 
-@router.get('/transactions/{warehouse_id}', response_model=WarehouseTransactionsResponseSchema,
+@router.get('/transactions/{warehouse_id}',
             status_code=status.HTTP_200_OK, responses={
+        200: {
+            "content": {
+                "application/json": {
+                    "example": warehouse_example
+                }
+            }
+        },
         status.HTTP_401_UNAUTHORIZED: get_error_response("ERROR: UNAUTHORIZED",
                                                          "Not authenticated or invalid role provided"),
         status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
         status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND",
                                                       "Warehouse with ID {warehouse_id} does not exist"),
         status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR",
-                                                                  "Internal Server Error")})
-def get_transactions_by_product_id(warehouse_id: int, db: Session = Depends(get_db)):
+                                                                  "Internal Server Error")
+    })
+def get_transactions_by_warehouse_id(warehouse_id: int, db: Session = Depends(get_db)):
     logger.info(f"[ROUTER] Fetching transactions for warehouse ID {warehouse_id}.")
     transactions_warehouse = warehouse_repository.get_transactions_by_warehouse_id(warehouse_id, db)
     logger.info(f"[ROUTER] Found {len(transactions_warehouse)} transactions for client ID {warehouse_id}.")
