@@ -39,8 +39,13 @@ class ProductsBase(BaseModel):
     id: Optional[int] = Field(examples=[5])
     name: str = Field(examples=["Ordenador"])
     price: condecimal(max_digits=10, decimal_places=2) = Field(examples=[230.50])
+    quantity: int = Field(examples=[12])
+    serial_number: str = Field(examples=["A123456"])
+    description: Optional[str] = Field(examples=["Ordenador clase media"])
     category: Optional[str] = Field(examples=["Ordenadores"])
     image_url: Optional[str] = Field(examples=[example_image_url])
+    kit_id: Optional[int] = Field(examples=[5])
+    warehouse_id: int = Field(examples=[3])
 
 
 class WarehouseProductsResponseSchema(BaseModel):

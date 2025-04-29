@@ -48,9 +48,14 @@ def get_products_by_warehouse_id(warehouse_id: int, db: Session):
         {
             "id": product.id,
             "name": product.name,
+            "quantity": product.quantity,
+            "serial_number": product.serial_number,
             "price": product.price,
+            "description": product.description,
             "category": product.category,
-            "image_url": product.image_url
+            "image_url": product.image_url,
+            "kit_id": product.kit_id,
+            "warehouse_id": product.warehouse_id,
         }
         for product in products
     ]
