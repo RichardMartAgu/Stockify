@@ -183,7 +183,7 @@ def get_alerts_by_product_id(product_id: int, db: Session):
 
 
 def create_product(product, db: Session):
-    logger.info(f"Creating new product: {product['name']}")
+    logger.info(f"Creating new product: {product.name}")
     product = product.dict()
     try:
         image_url = product.get("image_url", None)

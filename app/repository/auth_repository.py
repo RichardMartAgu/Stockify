@@ -39,12 +39,13 @@ def auth_user(user, db: Session):
             "image_url": db_user.image_url,
         }
 
+    except HTTPException:
+        raise
+
     except Exception as e:
-        logger.error(f"Error during authentication process: {e}")
+        logger.error(f"Unexpected error during authentication: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="An error occurred during authentication"
+            detail="An internal error occurred during authentication"
+
         )
-
-
-
