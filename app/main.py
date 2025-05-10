@@ -17,18 +17,18 @@ logger = logging.getLogger(__name__)
 app = FastAPI(title="Stockify.API")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 👈 Puedes restringirlo a ["http://localhost:8100"]
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # 👈 Permitir todos los métodos (GET, POST, etc.)
-    allow_headers=["*"],  # 👈 Permitir todos los headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Cambia "*" por los dominios específicos si es necesario
+    allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"],  # Permite todos los métodos (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"],  # Permite todos los headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 # Including routers to handle different endpoints

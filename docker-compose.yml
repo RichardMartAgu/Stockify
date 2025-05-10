@@ -1,14 +1,12 @@
-version: "3.9"
-
 services:
   db:
-    image: postgres:15
+    image: postgres:17
     container_name: postgres_stockify
     restart: always
     environment:
-      POSTGRES_USER: stockify_user
-      POSTGRES_PASSWORD: stockify_pass
-      POSTGRES_DB: stockify_db
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5432:5432"
     volumes:
