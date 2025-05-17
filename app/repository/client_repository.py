@@ -75,7 +75,7 @@ def get_transactions_by_client_id(client_id: int, db: Session):
 
 
 def create_client(client, db: Session):
-    logger.info(f"Attempting to create a new client with identifier {client['identifier']}.")
+    logger.info(f"Attempting to create a new client with identifier {client.identifier}.")
     client = client.dict()
     try:
         contact = client.get("contact", None)

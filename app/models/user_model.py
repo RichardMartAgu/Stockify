@@ -12,9 +12,12 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(150), unique=True, index=True)
-    password = Column(String(150))
+    password = Column(String(150), nullable=False)
     email = Column(String(255), unique=True, index=True, nullable=False)
     role = Column(String(50), nullable=False)
+    stripe_customer_id = Column(String(150), unique=True, nullable=True)
+    stripe_subscription_id = Column(String(150), unique=True, nullable=True)
+    stripe_subscription_status = Column(String(50))
     image_url = Column(String(500), nullable=True, server_default=default_image_url)
     admin_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 
