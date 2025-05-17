@@ -11,7 +11,6 @@ from app.models.transaction_products_midtable import TransactionProduct
 from app.utils.identifier import generate_identifier
 
 
-
 def get_transactions(db: Session):
     try:
         data = db.query(Transaction).all()
@@ -54,8 +53,8 @@ def get_products_by_transaction_id(transaction_id: int, db: Session):
                 detail=f"Transaction with ID {transaction_id} does not exist"
             )
 
-        products = db.query(Product).join(transaction_products).filter(
-            transaction_products.c.transaction_id == transaction_id).all()
+        products = db.query(Product).join(transaction.transaction_products).filter(
+            transaction.transaction_products.c.transaction_id == transaction_id).all()
         if not products:
             logger.warning(f"No products found for transaction ID {transaction_id}")
             raise HTTPException(
@@ -107,22 +106,49 @@ def create_transaction(transaction_data, db: Session):
         db.commit()
         db.refresh(new_transaction)
 
-        logger.info(f"Transaction created with ID {new_transaction.id}")
+        logger.info(f"Transaction created with ID {new_transaction.id}, type: {transaction_data.type}")
 
-        product_entries = [
-            {
+        product_entries = []
+        for product in transaction_data.products:
+
+            product_in_db = db.query(Product).filter(Product.id == product.product_id).first()
+
+            if not product_in_db:
+                logger.warning(f"Product {product.product_id} not found")
+                raise HTTPException(status_code=404, detail="Product not found")
+
+            if transaction_data.type == 'out':
+                logger.info(
+                    f"Trying to remove {product.quantity} units from product {product.product_id} (current stock: {product_in_db.quantity})")
+                if product_in_db.quantity < product.quantity:
+                    logger.error(
+                        f"Insufficient stock for product {product.product_id}: available {product_in_db.quantity}, required {product.quantity}")
+                    raise HTTPException(status_code=400, detail=f"Insufficient stock for product {product.product_id}")
+                product_in_db.quantity -= product.quantity
+                logger.info(
+                    f"New stock for product {product.product_id} after outgoing transaction: {product_in_db.quantity}")
+
+            elif transaction_data.type == 'in':
+                logger.info(
+                    f"Adding {product.quantity} units to product {product.product_id} (current stock: {product_in_db.quantity})")
+                product_in_db.quantity += product.quantity
+                logger.info(
+                    f"New stock for product {product.product_id} after incoming transaction: {product_in_db.quantity}")
+
+            db.add(product_in_db)
+
+            product_entries.append({
                 "transaction_id": new_transaction.id,
                 "product_id": product.product_id,
                 "quantity": product.quantity
-            }
-            for product in transaction_data.products
-        ]
+            })
 
         if product_entries:
             stmt = insert(TransactionProduct).values(product_entries)
             db.execute(stmt)
-            db.commit()
-            logger.info(f"Inserted {len(product_entries)} products into transaction ID {new_transaction.id}")
+
+        db.commit()
+        logger.info(f"Transaction completed with {len(product_entries)} products")
 
         return {
             "id": new_transaction.id,
@@ -164,4 +190,5 @@ def delete_transaction(transaction_id: int, db: Session):
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"Error deleting transaction: {str(e)}"
         )
+
     return None
