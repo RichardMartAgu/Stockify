@@ -7,6 +7,7 @@ example_name = "Pepe"
 example_password = "123456"
 example_email = "pepe@gmail.com"
 example_role = "Admin"
+stripe_subscription_status = "false"
 example_image_url = "https://stockifystorage.s3.us-east-1.amazonaws.com/user_profiles/Flux_Dev_A_stylized_icon_for_a_modern_storage_company_featurin_1.jpeg"
 
 
@@ -15,6 +16,7 @@ class UserResponseSchema(BaseModel):
     username: str = Field(examples=[example_name])
     email: EmailStr = Field(examples=[example_email])
     role: str = Field(examples=[example_role])
+    stripe_subscription_status: bool = Field(examples=[stripe_subscription_status])
     image_url: Optional[str] = Field(examples=[example_image_url])
     admin_id: Optional[int] = Field(examples=[3])
 

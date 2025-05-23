@@ -36,6 +36,7 @@ def auth_user(user, db: Session):
             "id": db_user.id,
             "username": db_user.username,
             "email": db_user.email,
+            "stripe_subscription_status": db_user.stripe_subscription_status,
             "image_url": db_user.image_url,
         }
 

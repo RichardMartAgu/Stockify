@@ -7,6 +7,7 @@ class TokenResponse(BaseModel):
     token_type: str = Field(examples=["barer"])
     username: str = Field(examples=["Pepe"])
     email: EmailStr = Field(examples=["pepe@gmail.com"])
+    stripe_subscription_status: bool = Field(examples=["false"])
     id: int = Field(examples=[5])
     image_url: str = Field(examples=[example_image_url])
 

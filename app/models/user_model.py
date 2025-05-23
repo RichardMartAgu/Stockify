@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -16,8 +16,7 @@ class User(Base):
     email = Column(String(255), unique=True, index=True, nullable=False)
     role = Column(String(50), nullable=False)
     stripe_customer_id = Column(String(150), unique=True, nullable=True)
-    stripe_subscription_id = Column(String(150), unique=True, nullable=True)
-    stripe_subscription_status = Column(String(50))
+    stripe_subscription_status = Column(Boolean, default=False, nullable=False)
     image_url = Column(String(500), nullable=True, server_default=default_image_url)
     admin_id = Column(Integer, ForeignKey("user.id", ondelete="CASCADE"))
 

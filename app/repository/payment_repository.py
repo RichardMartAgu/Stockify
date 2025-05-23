@@ -76,8 +76,8 @@ def create_checkout_session(user_id, db):
                 },
                 "quantity": 1,
             }],
-            success_url="http://ec2-44-223-75-44.compute-1.amazonaws.com:8000/api/saludo",
-            cancel_url="http://ec2-44-223-75-44.compute-1.amazonaws.com:8000/api/saludo",
+            success_url="http://localhost:3000/payment/success",
+            cancel_url="http://localhost:3000/payment/fail",
             customer=user.stripe_customer_id,
         )
         return {"sessionId": session.id}
