@@ -19,7 +19,7 @@ def process_webhook_event(event, db: Session):
 
         if user:
             user.stripe_subscription_id = subscription_id
-            user.stripe_subscription_status = "active"
+            user.stripe_subscription_status = True
             db.commit()
 
             return JSONResponse(status_code=200, content={"message": "Successfully payment"})
@@ -36,9 +36,9 @@ def process_webhook_event(event, db: Session):
         if user:
             if subscription_status == "active":
                 user.stripe_subscription_id = subscription.get("id")
-                user.stripe_subscription_status = "active"
+                user.stripe_subscription_status = True
             elif subscription_status == "canceled":
-                user.stripe_subscription_status = "canceled"
+                user.stripe_subscription_status = False
 
             db.commit()
             return JSONResponse(status_code=200, content={"message": "Payment subscription edited"})
