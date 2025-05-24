@@ -57,6 +57,18 @@ def process_webhook_event(payload, sig_header, secret, db: Session):
                 logger.warning(f"User with customer_id {customer_id} not found")
                 return JSONResponse(status_code=404, content={"error": "User not found"})
 
+        elif event["type"] == "customer.subscription.deleted":
+            subscription = event["data"]["object"]
+            customer_id = subscription.get("customer")
+            logger.info(f"Subscription deleted for customer: {customer_id}")
+
+            user = db.query(User).filter(User.stripe_customer_id == customer_id).first()
+            if user:
+                user.stripe_subscription_status = False
+                logger.info(f"Set subscription canceled for user_id: {user.id} (deleted event)")
+                db.commit()
+            else:
+                logger.warning(f"No user found with stripe_customer_id={customer_id} on deleted event")
         else:
             logger.warning(f"Unrecognized event type: {event['type']}")
             return JSONResponse(status_code=400, content={"error": "Unrecognized event"})
@@ -86,15 +98,9 @@ def create_checkout_session(user_id, db):
         logger.info(f"Creating checkout session for user_id: {user.id}")
         session = stripe.checkout.Session.create(
             payment_method_types=["card"],
-            mode="payment",
+            mode="subscription",
             line_items=[{
-                "price_data": {
-                    "currency": "eur",
-                    "product_data": {
-                        "name": "Suscripción trimestral a Stripe",
-                    },
-                    "unit_amount": 2000,
-                },
+                "price": "price_1RNUKjEEie4OqAPDikNRj4lS",
                 "quantity": 1,
             }],
             success_url="http://localhost:3000/payment/success",
