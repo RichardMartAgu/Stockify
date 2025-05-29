@@ -185,6 +185,14 @@ def get_alerts_by_product_id(product_id: int, db: Session):
 def create_product(product, db: Session):
     logger.info(f"Creating new product: {product.name}")
     product = product.dict()
+
+    if db.query(Product).filter(Product.serial_number == product["serial_number"]).first():
+        logger.error(f"Error creating Product: Serial Number already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Serial Number already registered"
+        )
+
     try:
         image_url = product.get("image_url", None)
         description = product.get("description", None)
@@ -237,6 +245,18 @@ def update_product(product_id: int, product_update, db: Session):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Product with ID {product_id} does not exist"
+        )
+
+    existing_product = db.query(Product).filter(
+        Product.serial_number == product_update.serial_number,
+        Product.id != product_id
+    ).first()
+
+    if existing_product:
+        logger.error(f"Error creating Product: Serial Number already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Serial Number already registered"
         )
 
     try:

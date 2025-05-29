@@ -225,6 +225,21 @@ def get_alerts_by_user_id(user_id: int, db: Session):
 
 def create_user(user, db: Session):
     user = user.dict()
+
+    if db.query(User).filter(User.email == user["email"]).first():
+        logger.error(f"Error creating user: Email already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
+        )
+
+    if db.query(User).filter(User.username == user["username"]).first():
+        logger.error(f"Error creating user: Username already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already registered"
+        )
+
     try:
         logger.info("Creating new user")
 
@@ -263,6 +278,30 @@ def update_user(user_id: int, user_update, db: Session):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"User with ID {user_id} does not exist"
+        )
+
+    existing_username = db.query(User).filter(
+        User.name == user_update.name,
+        User.id != user_id
+    ).first()
+
+    if existing_username:
+        logger.error(f"Error creating User: Name already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Name already registered"
+        )
+
+    existing_user_email = db.query(User).filter(
+        User.email == user_update.email,
+        User.id != user_id
+    ).first()
+
+    if existing_username:
+        logger.error(f"Error creating User: Email already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered"
         )
 
     try:

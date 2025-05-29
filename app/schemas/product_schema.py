@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional, List
 
-from pydantic import BaseModel, Field, condecimal
+from pydantic import BaseModel, Field
 
 example_name = "Ordenador"
 example_quantity = 12
@@ -30,7 +30,7 @@ class CreateProductSchema(BaseModel):
     name: str = Field(examples=[example_name])
     quantity: int = Field(examples=[example_quantity])
     serial_number: str = Field(examples=[example_serial_number])
-    price: float  = Field(examples=[example_price])
+    price: float = Field(examples=[example_price])
     description: Optional[str] = Field(examples=[example_description])
     category: Optional[str] = Field(examples=[example_category])
     kit_id: Optional[int] = Field(examples=[kit_id])
@@ -57,7 +57,7 @@ class ProductsBase(BaseModel):
     name: str = Field(examples=[example_name])
     quantity: int = Field(examples=[example_quantity])
     serial_number: str = Field(examples=[example_serial_number])
-    price: float  = Field(examples=[example_price])
+    price: float = Field(examples=[example_price])
     description: Optional[str] = Field(examples=[example_description])
     category: Optional[str] = Field(examples=[example_category])
     image_url: Optional[str] = Field(examples=[example_image_url])
@@ -69,7 +69,7 @@ class ProductProductsResponseSchema(BaseModel):
     name: str = Field(examples=[example_name])
     quantity: int = Field(examples=[example_quantity])
     serial_number: str = Field(examples=[example_serial_number])
-    price: float  = Field(examples=[example_price])
+    price: float = Field(examples=[example_price])
     description: Optional[str] = Field(examples=[example_description])
     category: Optional[str] = Field(examples=[example_category])
     image_url: Optional[str] = Field(examples=[example_image_url])

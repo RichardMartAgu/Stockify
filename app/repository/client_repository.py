@@ -77,6 +77,14 @@ def get_transactions_by_client_id(client_id: int, db: Session):
 def create_client(client, db: Session):
     logger.info(f"Attempting to create a new client with identifier {client.identifier}.")
     client = client.dict()
+
+    if db.query(Client).filter(Client.email == client["identifier"]).first():
+        logger.error(f"Error creating Client: Identifier already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Identifier already registered"
+        )
+
     try:
         contact = client.get("contact", None)
         phone = client.get("phone", None)
@@ -127,6 +135,18 @@ def update_client(client_id: int, client_update, db: Session):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Client with ID {client_id} does not exist"
+        )
+
+    existing_client = db.query(Client).filter(
+        Client.identifier == client_update.identifier,
+        Client.id != client_id
+    ).first()
+
+    if existing_client:
+        logger.error(f"Error creating Client: Identifier already registered")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Identifier already registered"
         )
 
     try:
