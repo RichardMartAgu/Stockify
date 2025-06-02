@@ -175,6 +175,14 @@ def delete_client(client_id: int, db: Session):
             detail=f"Client with ID {client_id} does not exist"
         )
 
+    has_transactions = db.query(Transaction).filter(Transaction.client_id == client_id).first()
+    if has_transactions:
+        logger.warning(f"Client with ID {client_id} cannot be deleted because it has associated transactions.")
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Client cannot be deleted because it has associated transactions."
+        )
+
     try:
         db.query(Client).filter(Client.id == client_id).delete(synchronize_session=False)
         db.commit()

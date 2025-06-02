@@ -1,0 +1,475 @@
+2025-05-29 16:41:55,276 - INFO - Successful connection to the database!
+2025-05-29 16:42:50,277 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 16:42:50,279 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 16:42:50,725 - INFO - User Pepe authenticated successfully.
+2025-05-29 16:42:50,725 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 16:42:51,677 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 16:42:51,707 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 16:42:51,708 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 16:43:11,016 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 16:43:11,039 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 16:43:11,250 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 16:43:11,250 - INFO - Fetching user with ID 24
+2025-05-29 16:43:11,253 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 16:43:11,265 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 16:43:11,278 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 16:43:11,523 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 16:43:11,523 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 16:43:18,420 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 16:43:18,430 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 16:43:21,592 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 16:43:21,612 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 16:43:21,613 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 16:43:24,592 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 16:43:24,592 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 16:43:24,816 - INFO - User Pepe authenticated successfully.
+2025-05-29 16:43:24,816 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 16:43:25,704 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 16:43:25,714 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 16:43:25,714 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 16:43:28,684 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 16:43:28,691 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 16:43:28,897 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 16:43:28,898 - INFO - Fetching user with ID 24
+2025-05-29 16:43:28,898 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 16:43:28,906 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 16:43:28,916 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 16:43:28,922 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 16:43:28,923 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 16:43:37,625 - INFO - Fetching user with ID 24
+2025-05-29 16:43:37,630 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 16:43:37,635 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 16:43:49,130 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 16:43:49,143 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 16:43:49,370 - INFO - Fetching user with ID 24
+2025-05-29 16:43:49,370 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 16:43:49,372 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 16:43:49,379 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 16:43:49,388 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 16:43:49,389 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 16:43:49,399 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 16:44:00,323 - INFO - Fetching user with ID 24
+2025-05-29 16:44:00,323 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 16:44:00,325 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 16:44:00,337 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 16:44:00,347 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 16:44:00,355 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 16:44:00,356 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 16:48:40,449 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 16:48:40,449 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 16:48:40,724 - INFO - User Pepe authenticated successfully.
+2025-05-29 16:48:40,724 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 16:48:48,651 - INFO - [ROUTER] Creating new user.
+2025-05-29 16:48:48,673 - ERROR - Error creating user: Email already registered
+2025-05-29 16:48:57,855 - INFO - [ROUTER] Creating new user.
+2025-05-29 16:48:57,862 - INFO - Creating new user
+2025-05-29 16:48:58,120 - INFO - User created with ID 25
+2025-05-29 16:48:58,121 - INFO - [ROUTER] User created: <app.models.user_model.User object at 0x000001BABF66BDA0>
+2025-05-29 16:49:42,760 - INFO - [ROUTER] Fetching all users.
+2025-05-29 16:49:42,764 - INFO - Fetched 2 users from the database
+2025-05-29 16:49:42,765 - INFO - [ROUTER] Fetched 2 users.
+2025-05-29 16:49:53,371 - INFO - [ROUTER] Deleting user with ID 25.
+2025-05-29 16:49:53,403 - INFO - User with ID 25 deleted successfully
+2025-05-29 16:49:53,403 - INFO - [ROUTER] User with ID 25 deleted.
+2025-05-29 16:49:59,403 - INFO - [ROUTER] Fetching all users.
+2025-05-29 16:49:59,407 - INFO - Fetched 1 users from the database
+2025-05-29 16:49:59,407 - INFO - [ROUTER] Fetched 1 users.
+2025-05-29 16:52:13,275 - INFO - [ROUTER] Fetching all users.
+2025-05-29 16:52:13,279 - INFO - Fetched 1 users from the database
+2025-05-29 16:52:13,280 - INFO - [ROUTER] Fetched 1 users.
+2025-05-29 17:05:26,335 - INFO - [ROUTER] Start create checkout session
+2025-05-29 17:05:26,409 - WARNING - User with id 1 not found when creating checkout session
+2025-05-29 17:05:42,797 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 17:05:42,798 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 17:05:43,039 - INFO - User Pepe authenticated successfully.
+2025-05-29 17:05:43,041 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 17:05:45,799 - INFO - [ROUTER] Fetching all users.
+2025-05-29 17:05:45,803 - INFO - Fetched 1 users from the database
+2025-05-29 17:05:45,803 - INFO - [ROUTER] Fetched 1 users.
+2025-05-29 17:05:54,066 - INFO - [ROUTER] Start create checkout session
+2025-05-29 17:05:54,071 - INFO - Creating checkout session for user_id: 24
+2025-05-29 17:05:55,520 - INFO - Checkout session created with id: cs_test_a1xIsb7VFA4HITehZmT8BtIHDWJiALzdFTA81zAgWPkvr2qps4I7YHQu6l
+2025-05-29 17:05:55,521 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 17:08:57,657 - INFO - Successful connection to the database!
+2025-05-29 17:12:33,862 - INFO - Successful connection to the database!
+2025-05-29 17:19:23,432 - INFO - Successful connection to the database!
+2025-05-29 17:19:31,010 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 17:19:31,011 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 17:19:31,296 - INFO - User Pepe authenticated successfully.
+2025-05-29 17:19:31,298 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 17:19:40,351 - INFO - [ROUTER] Fetching all users.
+2025-05-29 17:19:40,362 - INFO - Fetched 1 users from the database
+2025-05-29 17:19:40,362 - INFO - [ROUTER] Fetched 1 users.
+2025-05-29 18:33:56,446 - INFO - Successful connection to the database!
+2025-05-29 18:34:13,103 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 18:34:13,104 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 18:34:13,373 - INFO - User Pepe authenticated successfully.
+2025-05-29 18:34:13,373 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 18:34:31,706 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:34:31,717 - WARNING - User with id 25 not found when creating checkout session
+2025-05-29 18:34:43,568 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:34:43,571 - WARNING - User with id 5 not found when creating checkout session
+2025-05-29 18:34:48,399 - INFO - [ROUTER] Fetching all users.
+2025-05-29 18:34:48,402 - INFO - Fetched 1 users from the database
+2025-05-29 18:34:48,403 - INFO - [ROUTER] Fetched 1 users.
+2025-05-29 18:34:53,316 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:34:53,319 - INFO - Creating checkout session for user_id: 24
+2025-05-29 18:34:54,505 - INFO - Checkout session created with id: cs_test_a1FGvn0Xz3y03fCyoyrTSrCmVPSpEUYWPErE7SOUjHS40FhrgqwsjHZLNl
+2025-05-29 18:34:54,506 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 18:36:56,624 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:36:56,700 - INFO - Creating checkout session for user_id: 24
+2025-05-29 18:36:58,086 - INFO - Checkout session created with id: cs_test_a1Nmk9cgYHpVosieLpK0j1GcWctABoHZ5TNNwtOoj9jqsYmQZJpUvAVUEg
+2025-05-29 18:36:58,088 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 18:37:54,268 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 18:37:54,275 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 18:37:54,762 - INFO - User Pepe authenticated successfully.
+2025-05-29 18:37:54,763 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 18:37:56,055 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 18:37:56,297 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 18:37:56,297 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 18:37:58,685 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 18:37:59,009 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 18:37:59,010 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 18:37:59,010 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 18:37:59,011 - INFO - Fetching user with ID 24
+2025-05-29 18:37:59,023 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 18:37:59,154 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 18:37:59,155 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 18:37:59,176 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 18:37:59,186 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 18:37:59,186 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 18:38:02,810 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:38:02,813 - INFO - Creating checkout session for user_id: 24
+2025-05-29 18:38:03,535 - INFO - Checkout session created with id: cs_test_a1nIQCnodFEvr7ZEQbGpKZfFT4f1nuHP314rX8VcBAslCeTRp5Vx9uFDku
+2025-05-29 18:38:03,535 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 18:39:34,537 - INFO - Successful connection to the database!
+2025-05-29 18:39:38,460 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:39:38,489 - INFO - Creating checkout session for user_id: 24
+2025-05-29 18:39:39,451 - INFO - Checkout session created with id: cs_test_a1INSY887warVtECYiyZSqcWW42HoRrzZLZTV2ekovl2Fwc9AdwH8UHmuv
+2025-05-29 18:39:39,451 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 18:39:56,554 - INFO - [ROUTER] Start create checkout session
+2025-05-29 18:39:56,557 - INFO - Creating checkout session for user_id: 24
+2025-05-29 18:39:57,061 - INFO - Checkout session created with id: cs_test_a1L7PszrEawxcg1l9PQwctNDsMoYHuY8gkemm6VMibE4bz9O4UQmf5fSDh
+2025-05-29 18:39:57,061 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 19:39:41,000 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-29 19:39:41,007 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-29 19:39:41,384 - INFO - User Pepe authenticated successfully.
+2025-05-29 19:39:41,384 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-29 19:39:42,314 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 19:39:42,331 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 19:39:42,331 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 19:39:48,356 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:39:48,397 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:39:48,571 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:39:48,571 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:39:48,571 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:39:48,571 - INFO - Fetching user with ID 24
+2025-05-29 19:39:48,615 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:39:48,616 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:39:48,669 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:39:48,677 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:39:48,677 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:40:00,262 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:40:00,266 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:40:00,487 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:40:00,488 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:40:00,488 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:40:00,488 - INFO - Fetching user with ID 24
+2025-05-29 19:40:00,495 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:40:00,500 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:40:00,500 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:40:00,505 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:40:00,506 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:40:05,515 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:40:05,524 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:40:05,747 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:40:05,747 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:40:05,748 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:40:05,748 - INFO - Fetching user with ID 24
+2025-05-29 19:40:05,753 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:40:05,756 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:40:05,757 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:40:05,757 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:40:05,757 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:40:12,128 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:40:12,135 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:40:12,335 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:40:12,336 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:40:12,337 - INFO - Fetching user with ID 24
+2025-05-29 19:40:12,337 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:40:12,342 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:40:12,346 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:40:12,349 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:40:12,349 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:40:12,350 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:43:23,959 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:43:24,022 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:43:24,093 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:43:24,099 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:43:24,103 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:43:24,105 - INFO - Fetching user with ID 24
+2025-05-29 19:43:24,121 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:43:24,142 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:43:24,142 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:43:24,146 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:43:24,148 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:43:29,152 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:43:29,163 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:43:29,361 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:43:29,361 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:43:29,363 - INFO - Fetching user with ID 24
+2025-05-29 19:43:29,363 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:43:29,367 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:43:29,371 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:43:29,372 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:43:29,372 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:43:29,373 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:43:37,538 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:43:37,545 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:43:37,747 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:43:37,747 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:43:37,748 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:43:37,748 - INFO - Fetching user with ID 24
+2025-05-29 19:43:37,752 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:43:37,756 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:43:37,756 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:43:37,758 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:43:37,760 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:43:50,998 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:43:51,008 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:43:51,202 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:43:51,202 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:43:51,203 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:43:51,203 - INFO - Fetching user with ID 24
+2025-05-29 19:43:51,210 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:43:51,213 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:43:51,214 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:43:51,215 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:43:51,215 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:44:37,412 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:44:37,424 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:44:37,645 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:44:37,645 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:44:37,645 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:44:37,645 - INFO - Fetching user with ID 24
+2025-05-29 19:44:37,651 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:44:37,654 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:44:37,656 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:44:37,700 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:44:37,701 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:44:43,616 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:44:43,624 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:44:43,839 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:44:43,839 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:44:43,840 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:44:43,840 - INFO - Fetching user with ID 24
+2025-05-29 19:44:43,845 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:44:43,848 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:44:43,849 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:44:43,850 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:44:43,851 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:44:56,620 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:44:56,627 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:44:56,840 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:44:56,840 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:44:56,841 - INFO - Fetching user with ID 24
+2025-05-29 19:44:56,841 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:44:56,845 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:44:56,849 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:44:56,849 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:44:56,849 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:44:56,851 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:45:26,878 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:45:26,887 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:45:27,102 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:45:27,102 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:45:27,104 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:45:27,104 - INFO - Fetching user with ID 24
+2025-05-29 19:45:27,110 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:45:27,114 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:45:27,116 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:45:27,116 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:45:27,116 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:45:40,044 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:45:40,053 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:45:40,264 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:45:40,265 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:45:40,271 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:45:40,271 - INFO - Fetching user with ID 24
+2025-05-29 19:45:40,276 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:45:40,276 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:45:40,277 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:45:40,282 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:45:40,282 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:47:49,024 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 19:47:49,058 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 19:47:49,059 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 19:48:07,602 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 19:48:07,616 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 19:48:07,616 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 19:48:28,296 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-05-29 19:48:28,307 - INFO - Fetched warehouses under user with ID 24
+2025-05-29 19:48:28,308 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-05-29 19:48:31,867 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:48:31,875 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:48:32,101 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:48:32,103 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:48:32,103 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:48:32,103 - INFO - Fetching user with ID 24
+2025-05-29 19:48:32,110 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:48:32,114 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:48:32,114 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:48:32,118 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:48:32,118 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:48:36,968 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:48:36,976 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:48:37,192 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:48:37,193 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:48:37,194 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:48:37,195 - INFO - Fetching user with ID 24
+2025-05-29 19:48:37,202 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:48:37,204 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:48:37,205 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:48:37,209 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:48:37,210 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:48:57,075 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:48:57,083 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:48:57,288 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:48:57,289 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:48:57,292 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:48:57,293 - INFO - Fetching user with ID 24
+2025-05-29 19:48:57,298 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:48:57,301 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:48:57,302 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:48:57,304 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:48:57,304 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:49:26,835 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:49:26,843 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:49:27,035 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:49:27,036 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:49:27,042 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:49:27,043 - INFO - Fetching user with ID 24
+2025-05-29 19:49:27,046 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:49:27,047 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:49:27,049 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:49:27,053 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:49:27,054 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:49:29,649 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:49:29,655 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:49:29,858 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:49:29,859 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:49:29,859 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:49:29,862 - INFO - Fetching user with ID 24
+2025-05-29 19:49:29,867 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:49:29,869 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:49:29,870 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:49:29,872 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:49:29,873 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:49:32,850 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:49:32,856 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:49:33,058 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:49:33,059 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:49:33,060 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:49:33,062 - INFO - Fetching user with ID 24
+2025-05-29 19:49:33,066 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:49:33,067 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:49:33,068 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:49:33,070 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:49:33,071 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:49:36,874 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:49:36,880 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:49:37,092 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:49:37,092 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:49:37,092 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:49:37,093 - INFO - Fetching user with ID 24
+2025-05-29 19:49:37,098 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:49:37,101 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:49:37,102 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:49:37,102 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:49:37,102 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:49:59,557 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:49:59,585 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:49:59,776 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:49:59,776 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:49:59,777 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:49:59,777 - INFO - Fetching user with ID 24
+2025-05-29 19:49:59,782 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:49:59,786 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:49:59,788 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:49:59,788 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:49:59,788 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:51:05,755 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:51:05,764 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:51:05,970 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:51:05,970 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:51:05,983 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:51:05,984 - INFO - Fetching user with ID 24
+2025-05-29 19:51:05,996 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:51:05,997 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:51:06,000 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:51:06,003 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:51:06,004 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:51:11,593 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:51:11,603 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:51:11,937 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:51:11,938 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:51:11,943 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:51:11,943 - INFO - Fetching user with ID 24
+2025-05-29 19:51:11,953 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:51:11,957 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:51:11,958 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:51:11,961 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:51:11,963 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:51:35,013 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:51:35,022 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:51:35,218 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:51:35,218 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:51:35,224 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:51:35,224 - INFO - Fetching user with ID 24
+2025-05-29 19:51:35,228 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:51:35,229 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:51:35,230 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:51:35,233 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:51:35,234 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:52:11,187 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:52:11,207 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:52:11,399 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:52:11,401 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:52:11,413 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:52:11,414 - INFO - Fetching user with ID 24
+2025-05-29 19:52:11,419 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:52:11,429 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:52:11,434 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:52:11,439 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:52:11,440 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:57:40,610 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:57:40,632 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:57:40,632 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:57:40,741 - INFO - Fetching user with ID 24
+2025-05-29 19:57:40,844 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:57:41,000 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:57:41,015 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:57:41,016 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:57:41,019 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:57:41,217 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:57:41,218 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:57:59,010 - INFO - [ROUTER] Start create checkout session
+2025-05-29 19:57:59,014 - INFO - Creating checkout session for user_id: 24
+2025-05-29 19:58:00,864 - ERROR - Error creating checkout session: Request req_DOziHY7cOSL06L: No such customer: 'cus_SMkKqr24Eu6MQf'
+2025-05-29 19:58:00,865 - INFO - [ROUTER] Create checkout session end.
+2025-05-29 19:58:16,455 - INFO - Successful connection to the database!
+2025-05-29 19:58:19,052 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-05-29 19:58:19,101 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-05-29 19:58:19,266 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-05-29 19:58:19,266 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-05-29 19:58:19,266 - INFO - Fetching user with ID 24
+2025-05-29 19:58:19,267 - INFO - Fetching transactions for warehouse with ID 22.
+2025-05-29 19:58:19,277 - INFO - User with ID 24 found. Fetching clients...
+2025-05-29 19:58:19,287 - INFO - Fetched 3 clients for user ID 24
+2025-05-29 19:58:19,287 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-05-29 19:58:19,410 - INFO - Found 5 transactions for warehouse ID 22.
+2025-05-29 19:58:19,411 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-05-29 19:58:22,169 - INFO - [ROUTER] Start create checkout session
+2025-05-29 19:58:22,172 - INFO - Creating checkout session for user_id: 24
+2025-05-29 19:58:22,859 - ERROR - Error creating checkout session: Request req_Cz0qHQvqATv6oY: No such customer: 'cus_SMkKqr24Eu6MQf'
+2025-05-29 19:58:22,860 - INFO - [ROUTER] Create checkout session end.

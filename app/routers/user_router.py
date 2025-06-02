@@ -119,8 +119,7 @@ def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db)):
     status.HTTP_409_CONFLICT: get_error_response("ERROR: CONFLICT", "Create user error {e}"),
     status.HTTP_422_UNPROCESSABLE_ENTITY: get_error_response("ERROR: UNPROCESSABLE ENTITY", "Expecting value"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
-def create_user(user: CreateUserSchema, db: Session = Depends(get_db),
-                current_user: TokenData = Depends(role_required(['Admin']))):
+def create_user(user: CreateUserSchema, db: Session = Depends(get_db),):
     logger.info("[ROUTER] Creating new user.")
     created_user = user_repository.create_user(user, db)
     logger.info(f"[ROUTER] User created: {created_user}")

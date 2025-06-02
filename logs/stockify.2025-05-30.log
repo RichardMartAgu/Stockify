@@ -1,0 +1,11 @@
+2025-05-30 21:13:48,394 - INFO - Successful connection to the database!
+2025-05-30 21:14:16,056 - INFO - [ROUTER] User attempting login: Pepe
+2025-05-30 21:14:16,057 - INFO - Attempting to authenticate user with username: Pepe
+2025-05-30 21:14:16,350 - INFO - User Pepe authenticated successfully.
+2025-05-30 21:14:16,350 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-05-30 21:14:26,707 - INFO - [ROUTER] Fetching all users.
+2025-05-30 21:14:26,713 - INFO - Fetched 1 users from the database
+2025-05-30 21:14:26,713 - INFO - [ROUTER] Fetched 1 users.
+2025-05-30 21:14:34,465 - INFO - [ROUTER] Fetching user with ID 24.
+2025-05-30 21:14:34,469 - INFO - User with ID 24 fetched successfully
+2025-05-30 21:14:34,469 - INFO - [ROUTER] Found user: <app.models.user_model.User object at 0x0000027032061190> with ID 24.

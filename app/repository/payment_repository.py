@@ -103,8 +103,8 @@ def create_checkout_session(user_id, db):
                 "price": "price_1RNUKjEEie4OqAPDikNRj4lS",
                 "quantity": 1,
             }],
-            success_url="http://107.22.235.180/payment/success",
-            cancel_url="http://107.22.235.180/payment/fail",
+            success_url="http://107.22.235.180/?from=success",
+            cancel_url="http://107.22.235.180/?from=fail",
             customer=user.stripe_customer_id,
         )
         logger.info(f"Checkout session created with id: {session.id}")

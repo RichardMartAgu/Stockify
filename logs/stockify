@@ -1,0 +1,48 @@
+2025-06-01 19:42:52,674 - INFO - Successful connection to the database!
+2025-06-01 23:46:05,224 - INFO - Successful connection to the database!
+2025-06-01 23:46:51,943 - INFO - [ROUTER] User attempting login: Pepe
+2025-06-01 23:46:51,943 - INFO - Attempting to authenticate user with username: Pepe
+2025-06-01 23:46:52,253 - INFO - User Pepe authenticated successfully.
+2025-06-01 23:46:52,253 - INFO - [ROUTER] User Pepe successfully authenticated.
+2025-06-01 23:46:53,147 - INFO - [ROUTER] Fetching warehouses for user ID 24.
+2025-06-01 23:46:53,160 - INFO - Fetched warehouses under user with ID 24
+2025-06-01 23:46:53,161 - INFO - [ROUTER] Found 5 warehouses for user ID 24.
+2025-06-01 23:46:55,503 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-06-01 23:46:55,524 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-06-01 23:46:55,724 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-06-01 23:46:55,724 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-06-01 23:46:55,725 - INFO - Fetching transactions for warehouse with ID 22.
+2025-06-01 23:46:55,725 - INFO - Fetching user with ID 24
+2025-06-01 23:46:55,758 - INFO - Found 5 transactions for warehouse ID 22.
+2025-06-01 23:46:55,759 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-06-01 23:46:55,805 - INFO - User with ID 24 found. Fetching clients...
+2025-06-01 23:46:55,815 - INFO - Fetched 3 clients for user ID 24
+2025-06-01 23:46:55,816 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-06-01 23:47:14,452 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-06-01 23:47:14,458 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-06-01 23:47:14,673 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-06-01 23:47:14,673 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-06-01 23:47:14,673 - INFO - Fetching transactions for warehouse with ID 22.
+2025-06-01 23:47:14,673 - INFO - Fetching user with ID 24
+2025-06-01 23:47:14,678 - INFO - User with ID 24 found. Fetching clients...
+2025-06-01 23:47:14,683 - INFO - Fetched 3 clients for user ID 24
+2025-06-01 23:47:14,683 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-06-01 23:47:14,687 - INFO - Found 5 transactions for warehouse ID 22.
+2025-06-01 23:47:14,688 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-06-01 23:47:57,543 - INFO - [ROUTER] Fetching warehouses for user ID 27.
+2025-06-01 23:47:57,547 - WARNING - User with ID 27 not found
+2025-06-01 23:47:57,548 - ERROR - Error fetching warehouses under user with ID 27: 404: User with ID 27 does not exist
+2025-06-01 23:48:04,705 - INFO - [ROUTER] Fetching products for warehouse ID 22.
+2025-06-01 23:48:04,711 - INFO - [ROUTER] Found 6 products for client ID 22.
+2025-06-01 23:48:04,922 - INFO - [ROUTER] Fetching clients for user ID 24.
+2025-06-01 23:48:04,922 - INFO - [ROUTER] Fetching transactions for warehouse ID 22.
+2025-06-01 23:48:04,922 - INFO - Fetching user with ID 24
+2025-06-01 23:48:04,922 - INFO - Fetching transactions for warehouse with ID 22.
+2025-06-01 23:48:04,926 - INFO - User with ID 24 found. Fetching clients...
+2025-06-01 23:48:04,929 - INFO - Fetched 3 clients for user ID 24
+2025-06-01 23:48:04,929 - INFO - [ROUTER] Found 5 clients for user ID 24.
+2025-06-01 23:48:04,931 - INFO - Found 5 transactions for warehouse ID 22.
+2025-06-01 23:48:04,932 - INFO - [ROUTER] Found 6 transactions for client ID 22.
+2025-06-01 23:48:09,560 - INFO - [ROUTER] Fetching user with ID 24.
+2025-06-01 23:48:09,564 - INFO - User with ID 24 fetched successfully
+2025-06-01 23:48:09,564 - INFO - [ROUTER] Found user: <app.models.user_model.User object at 0x000001A1DF168C50> with ID 24.

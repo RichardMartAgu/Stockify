@@ -8,7 +8,7 @@ class User(Base):
     __tablename__ = 'user'
 
     # Default URL for the user image
-    default_image_url = "https://stockifystorage.s3.us-east-1.amazonaws.com/user_profiles/Flux_Dev_A_stylized_icon_for_a_modern_storage_company_featurin_1.jpeg"
+    default_image_url = "https://res.cloudinary.com/dddghjiwv/image/upload/v1744883802/x5ut8o8tn79nrxo5zsky.jpg"
 
     id = Column(Integer, primary_key=True, index=True)
     username = Column(String(150), unique=True, index=True)
