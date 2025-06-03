@@ -9,7 +9,7 @@ load_dotenv(dotenv_path=env_path)
 
 class Settings:
 
-    """Class to store project and database configuration."""
+    # Class to store project and database configuration
 
     PROJECT_NAME:str = "Stockify-API"
     PROJECT_VERSION:str = "1.0"

@@ -78,7 +78,7 @@ def create_client(client, db: Session):
     logger.info(f"Attempting to create a new client with identifier {client.identifier}.")
     client = client.dict()
 
-    if db.query(Client).filter(Client.email == client["identifier"]).first():
+    if db.query(Client).filter(Client.identifier == client["identifier"]).first():
         logger.error(f"Error creating Client: Identifier already registered")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

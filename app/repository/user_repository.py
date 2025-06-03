@@ -281,15 +281,15 @@ def update_user(user_id: int, user_update, db: Session):
         )
 
     existing_username = db.query(User).filter(
-        User.name == user_update.name,
+        User.username == user_update.username,
         User.id != user_id
     ).first()
 
     if existing_username:
-        logger.error(f"Error creating User: Name already registered")
+        logger.error(f"Error creating User: Username already registered")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Name already registered"
+            detail="Username already registered"
         )
 
     existing_user_email = db.query(User).filter(
@@ -297,7 +297,7 @@ def update_user(user_id: int, user_update, db: Session):
         User.id != user_id
     ).first()
 
-    if existing_username:
+    if existing_user_email:
         logger.error(f"Error creating User: Email already registered")
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

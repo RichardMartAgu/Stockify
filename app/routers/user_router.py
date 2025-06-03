@@ -105,7 +105,7 @@ def get_clients_by_user_id(user_id: int, db: Session = Depends(get_db),
     status.HTTP_403_FORBIDDEN: get_error_response("ERROR: FORBIDDEN", "You do not have access to this resource."),
     status.HTTP_404_NOT_FOUND: get_error_response("ERROR: NOT FOUND", "User with ID {user_id} does not exist"),
     status.HTTP_500_INTERNAL_SERVER_ERROR: get_error_response("ERROR: INTERNAL SERVER ERROR", "Internal Server Error")})
-def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db)):
+def get_alerts_by_user_id(user_id: int, db: Session = Depends(get_db),current_user: TokenData = Depends(role_required(['Admin']))):
     logger.info(f"[ROUTER] Fetching alerts for user ID {user_id}.")
     alerts_user = user_repository.get_alerts_by_user_id(user_id, db)
     logger.info(f"[ROUTER] Found {len(alerts_user)} alerts for user ID {user_id}.")
